@@ -1,0 +1,457 @@
+﻿@model Inspinia_MVC5_SeedProject.ViewModels.HomeViewModel
+@{
+    ViewBag.Title = "IndexSoporte";
+}
+<style>
+    body {
+        height: 100%;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+<script src="https://rawgit.com/tempusdominus/bootstrap-4/master/build/js/tempusdominus-bootstrap-4.js"></script>
+
+<link rel="stylesheet" href="~/TextEditorContents/jquery-te-1.4.0.css">
+<script src="~/TextEditorContents/jquery-te-1.4.0.min.js"></script>
+
+@*Modals*@
+@*Modalhsextras*@
+<div id="myModal" class="modal fade" role="dialog">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Crear hora extra<span id="eventTitle"></span></h4>
+            </div>
+            <div class="modal-body">
+                <p id="pDetails"></p><br />
+
+                <form id="nuevasHoras">
+                    <div class="row">
+
+
+                        <p class="font-bold">
+                            Cantidad de horas
+                        </p>
+
+                        <div class="input-group bootstrap-touchspin"><span class="input-group-btn"><button class="btn btn-white bootstrap-touchspin-down" type="button">-</button></span><span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span><input class="touchspin1 form-control" id="cantHoras" type="number" required value="" name="demo1" style="display: block"><span class="input-group-addon bootstrap-touchspin-postfix" style="display: none"></span><span class="input-group-btn"><button class="btn btn-white bootstrap-touchspin-up" type="button">+</button></span></div>
+                        <br />
+                        <p class="font-bold">
+                            Tipo de hora extra:
+                        </p>
+                        <select class="form-control m-b" name="account" id="selectTipoHoraExtra">
+
+                            <option value="Normal">Normal</option>
+                            <option value="Fin de semana">Fin de semana</option>
+
+                        </select>
+                        <input required type="text" placeholder="Motivo de las horas" id="motivoHoras" class="form-control" />
+
+
+
+                        <br />
+
+                        @*<button type="submit" class="btn btn-primary" id="guardarHoras">Enviar horas</button>*@
+
+                        <br />
+                        <div class="col-md-4">
+                            <p class="font-bold">
+
+                            </p>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="">
+                                            <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3" id="desde" placeholder="Desde las" />
+                                                <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="font-bold">
+
+                            </p>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="">
+                                            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" id="hasta" placeholder="Hasta las" />
+                                                <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <br />
+
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="guardarHoras">Enviar horas</button>
+                </form>
+
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+@*ModalPendientesMesa*@
+
+<div id="modalPendientes" class="modal fade" role="dialog">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Nueva tarea comunitaria<span id="eventTitle"></span></h4>
+            </div>
+            <div class="modal-body">
+                <p id="pDetails"></p><br />
+
+                <form id="tareaComunitaria">
+                    <div class="row">
+
+
+                        <input id="tituloComunitaria" name="titulo" type="text" value="" class="form-control titulo" placeholder="Titulo" />
+
+                        <br />
+                        <textarea id="txtAreaComunitaria" name="txtAreaComunitaria" placeholder="Descripción de la tarea comunitaria" required style="width:100%"></textarea>
+
+
+
+
+                        <br />
+                        <input id="clientes" name="clientes" type="text" value="" class="form-control clienteValido clientes" placeholder="¿A qué cliente pertenece?" />
+
+
+                        <br />
+
+
+
+
+
+                        <br />
+
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="guardarComunitaria">Crear y alertar a mesa</button>
+                </form>
+
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+@*EndModals*@
+<br />
+<div style="height:2000px">
+    <div class="row">
+        @foreach (var usuario in Model.Resumen)
+        {
+            <div class="col-lg-4" id="@usuario.Id" nombre="@usuario.Nombre">
+                <div class="widget-head-color-box navy-bg p-lg text-center" style="background-color:@usuario.Color">
+                    <div class="m-b-md">
+                        <h3 class="font-bold no-margins">
+                            @usuario.Nombre
+                        </h3>
+                        <small>Soporte</small>
+                    </div>
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    @*<img src="img/a4.jpg" class="rounded-circle circle-border m-b-md" alt="profile"*@
+                    <div>
+                        <span>Tareas hoy: @usuario.CantTareasHoy </span> |
+                        <span>Tareas total:@usuario.CantTareasTotal</span> |
+                        <span>Pendientes:@usuario.CantTareasPendientes</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-lg-6">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h5>Tareas grupales abiertas</h5>
+                <div class="ibox-tools">
+                    <span class="label label-warning-light float-right">@Model.intGenerico</span>
+                </div>
+
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-plus" id="nuevaPendiente"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a href="#" class="dropdown-item">Config option 1</a>
+                        </li>
+
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+
+                <div>
+                    <div class="feed-activity-list">
+                        @foreach (var pendiente in Model.PendientesMesa)
+                        {
+                            <div class="feed-element" id="@pendiente.Id">
+                                <a class="float-left" href="profile.html">
+                                    @*<img alt="image" class="rounded-circle" src="img/profile.jpg">*@
+                                </a>
+                                <div class="media-body ">
+                                    <small class="float-right">@pendiente.Clientes.Nombre</small>
+                                    <strong>@pendiente.CreadaPor.Nombre:</strong> @pendiente.Titulo <br>
+                                    <small class="text-muted">@pendiente.FechaCreada</small>
+
+                                </div>
+                            </div>
+                        }
+                        @*<div class="feed-element">
+                                <a class="float-left" href="profile.html">
+                                    <img alt="image" class="rounded-circle" src="img/profile.jpg">
+                                </a>
+                                <div class="media-body ">
+                                    <small class="float-right">Malvinas:</small>
+                                    <strong>Santiago Grossi:</strong> desaparecen las grabaciones. <br>
+                                    <small class="text-muted">Today 5:60 pm - 12.06.2014</small>
+
+                                </div>
+                            </div>*@
+
+
+                    </div>
+
+                    <button class="btn btn-primary btn-block m-t"><i class="fa fa-arrow-down"></i> Ver más</button>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    @*<div class="col-lg-6">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Guardias pendientes</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-plus" id="tareaguardia"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="#" class="dropdown-item">Config option 1</a>
+                            </li>
+                            <li>
+                                <a href="#" class="dropdown-item">Config option 2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content no-padding">
+                    <ul class="list-group"></ul>
+                </div>
+            </div>
+        </div>*@
+
+    <div class="col-lg-6">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h5>Mis horas extras</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-plus" id="horaextra"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a href="#" class="dropdown-item">Config option 1</a>
+                        </li>
+
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="ibox-content no-padding">
+                <ul class="list-group">
+                    @foreach (var hora in Model.HorasExtras)
+                    {
+                        <li class="list-group-item">
+                            <p><a class="text-info tareaPendiente" href="#" id="hora">@hora.Cantidad</a> Hs</p>
+                            <small class="block text-muted"><i class="fa fa-clock-o"></i>@hora.Motivo</small>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+            $(document).ready(function () {
+                var vm = {
+
+                };
+                $("#txtAreaComunitaria").jqte();
+                $("#horaextra").click(function () {
+                    $("#myModal").modal();
+                });
+                $(".col-lg-4").click(function () {
+                    id = $(this).attr('id');
+                    window.location.href = "/issues/tareasPorUsuario/" + id;
+                });
+                $(".feed-element").click(function () {
+                    id = $(this).attr('id');
+                    window.location.href = "/issues/PendienteComunitaria/" + id;
+                });
+                $("#nuevaPendiente").click(function () {
+                    $("#modalPendientes").modal();
+                });
+                //form horas extras
+                $("#nuevasHoras").validate({
+                    submitHandler: function () {
+                        $.ajax({
+                            url: "/api/HorasExtrasApi",
+                            method: "Post",
+                            data: {
+                                Cantidad: $('#cantHoras').val(),
+                                TipoHoraExtraNombre: $('#selectTipoHoraExtra').val(),
+                                Motivo: $('#motivoHoras').val(),
+                                Desde: $("#desde").val(),
+                                Hasta: $("#hasta").val()
+
+                            }
+
+
+
+
+                        })
+                                         .done(function () {
+                                             toastr.success("Cargaste tus horas extras, usá bien tu platita :)");
+
+                                             location.reload();
+                                             validator.resetForm();
+                                         })
+                                        .fail(function () {
+                                            toastr.error("Algo falló, capoeira. Avisale a santiago.");
+
+                                        })
+                    }
+                });
+                //end form horas extras
+
+
+                var clientes = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Nombre'),
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    remote: {
+                        url: '/Api/ClientesApi?query=%QUERY',
+                        wildcard: '%QUERY'
+                    }
+                });
+                $('.clientes').typeahead({
+                    minLength: 1,
+                    highlight: true
+                },
+                {
+                    name: 'clientes',
+                    display: 'Nombre',
+                    source: clientes
+                }).on("typeahead:select", function (e, clientes) {
+                    vm.NombreCliente = clientes.Nombre;
+                });
+
+
+
+                $.validator.addMethod("clienteValido", function () {
+                    return vm.NombreCliente && vm.NombreCliente !== 0;
+                }, "Seleccioná un cliente válido.");
+
+                //form comunitarias
+                $("#tareaComunitaria").validate({
+                    submitHandler: function () {
+                        $.ajax({
+                            url: "/api/PendientesComunitariasApi",
+                            method: "Post",
+                            data: {
+                                NombreCliente: $('#clientes').val(),
+                                Titulo: $('#tituloComunitaria').val(),
+                                Resumen: $('#txtAreaComunitaria').val()
+
+
+
+
+                            }
+
+
+
+
+                        })
+                                         .done(function () {
+                                             toastr.success("Tarea comunitaria creada y alertado a mesa :)");
+
+                                             location.reload();
+                                             validator.resetForm();
+                                         })
+                                        .fail(function () {
+                                            toastr.error("Algo falló, avisale a Santiago con una screenshot.");
+
+                                        })
+                    }
+                });
+                //end form comunitarias
+
+            });
+    </script>
+}

@@ -1,0 +1,91 @@
+﻿@using Microsoft.AspNet.Identity
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                            <span class="block m-t-xs">
+                                <strong class="font-bold">@User.Identity.GetUserName()</strong>
+                            </span> <span class="text-muted text-xs block">Example menu <b class="caret"></b></span>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="#">Logout</a></li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    DANA
+                </div>
+            </li>
+            @*<li class="@Html.IsSelected(action: "Index")">
+                <a href="@Url.Action("Index", "Home")"><i class="fa fa-table"></i> <span class="nav-label">Mesa</span> </a>
+            </li>*@
+            <li class="">
+                <a href="#" aria-expanded="false"><i class="fa fa-tablet"></i> <span class="nav-label">Mesa</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                    <li><a href="@Url.Action("IndexSoporte", "Home")">Mesa</a></li>
+                    <li><a href="@Url.Action("CrearIssue", "Issues")">Crear issue</a></li>
+                    <li><a href="@Url.Action("Guardias", "Home")">Guardias</a></li>
+                    <li><a href="@Url.Action("MesaSinAsignar", "Issues")">Tareas nuevas</a></li>
+                </ul>
+            </li>
+
+            @*<li class="@Html.IsSelected(action: "Index")">
+                <a href="@Url.Action("CrearIssue", "Issues")"><i class="fa fa-chain-broken"></i> <span class="nav-label">Crear issue</span> </a>
+            </li>*@
+            <li class="@Html.IsSelected(action: "Index")">
+                <a href="@Url.Action("IndexIssues", "Issues")"><i class="fa fa-home"></i> <span class="nav-label">Issues</span> </a>
+            </li>
+            <li class="@Html.IsSelected(action: "EstadisticasHoy")">
+                <a href="@Url.Action("EstadisticasHoy", "Reportes")"><i class="fa fa-line-chart"></i> <span class="nav-label">Reportes</span> </a>
+            </li>
+
+            <li class="">
+                <a href="#" aria-expanded="false"><i class="fa fa-gears"></i> <span class="nav-label">Grafana</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+
+                    <li>
+                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Malvinas" })">Malvinas</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Ausa" })">Ausa</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "PDB" })">PDB</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Estadio" })">Estadio</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "General Paz" })">Gp</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Aubasa" })">Aubasa</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Caba" })">Caba</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Subte" })">Subte</a>
+                    </li>
+
+
+                </ul>
+            </li>
+            <li class="">
+                <a href="#" aria-expanded="false"><i class="fa fa-magic"></i> <span class="nav-label">Administración</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                    <li><a href="@Url.Action("ResumenDeHoy", "Issues")">Resúmenes a pdf</a></li>
+                    <li><a href="@Url.Action("HorasExtras", "Admin")">Horas extras</a></li>
+                    <li><a href="@Url.Action("Cerradas", "Issues")">Cerradas</a></li>
+                    <li><a href="@Url.Action("Todas", "Issues")">Todas</a></li>
+                </ul>
+            </li>
+
+            
+        </ul>
+
+    </div>
+</nav>

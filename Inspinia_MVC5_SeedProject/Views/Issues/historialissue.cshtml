@@ -1,0 +1,267 @@
+﻿@model Inspinia_MVC5_SeedProject.ViewModels.MensajesViewModel
+@{
+    ViewBag.Title = "Historial issue y mensajes";
+}
+
+<link rel="stylesheet" href="~/TextEditorContents/jquery-te-1.4.0.css">
+<script src="~/TextEditorContents/jquery-te-1.4.0.min.js"></script>
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://demo.codeforgeek.com/jquery-te-1.4.0.min.js"></script>
+
+<div id="modalCerrar" class="modal fade" role="dialog">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Cerrar tarea<span id="eventTitle"></span></h4>
+            </div>
+            <div class="modal-body">
+                <p id="pDetails">Asignar tiempo de trabajo</p><br />
+                <div class="form-group">
+
+                    <div class="input-group bootstrap-touchspin"><span class="input-group-btn"><button class="btn btn-white bootstrap-touchspin-down" type="button">-</button></span><span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span><input class="touchspin1 form-control" placeholder="Tiempo trabajado en minutos" id="minutos" type="number" value="" name="demo1" style="display: block"><span class="input-group-addon bootstrap-touchspin-postfix" style="display: none"></span><span class="input-group-btn"><button class="btn btn-white bootstrap-touchspin-up" type="button">+</button></span></div>
+
+                </div>
+
+
+            </div>
+            <div class="modal-body">
+                <button type="button" id="cerrar" class="btn btn-success">Cerrar tarea</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="ibox chat-view">
+
+            <div class="ibox-title row">
+                <small class="float-right text-muted">@Model.TituloIssue</small>
+                <button class="btn btn-succes" id="cerrarTarea">Cerrar</button>
+                <button class="btn btn-succes" id="liberar">Liberar</button>
+                <div class="row">
+
+
+
+
+                    <div class="col-md-9 ">
+                        <div class="chat-discussion">
+
+                            @foreach (var mensaje in Model.ListaMensajes)
+                            {
+
+                                <div class="chat-message right">
+                                    <img class="message-avatar" src="~/Content/chatimage.png" alt="">
+                                    <div class="message">
+                                        <a class="message-author" href="#"> @mensaje.Usuario.Nombre </a>
+                                        <span class="message-date"> @mensaje.FechaCreado </span>
+                                        
+                                        <span class="message-content">
+                                            @*@mensaje.Mensaje*@
+                                            @Html.Raw(@mensaje.Mensaje)
+                                        </span>
+                                    </div>
+                                </div>
+
+                            }
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="chat-users">
+
+
+                            <div class="users-list">
+                                <div class="chat-user">
+                                    <img class="chat-avatar" src="~/Content/repair.png" >
+                                    <div class="chat-user-name">
+                                        <a href="#">@Model.Issue.Titulo</a>
+                                       
+                                    </div>
+                                </div>
+                                <div class="chat-user-name">
+                                    
+                                    @*<a href="#">@Model.Issue.Descripcion</a>*@
+                         
+                                        @Html.Raw(Model.Issue.Descripcion)
+                                            
+
+                                     
+
+                                </div>
+                                
+                              
+                                <div class="chat-user-name">
+                                    <a href="#">De : @Model.Issue.Clientes.Nombre</a>
+                                </div>
+                                <div class="chat-user-name">
+                                    <a href="#">Creada por : @Model.Issue.CreadaPor.Nombre el @Model.Issue.FechaCreada</a>
+                                    @if (Model.Issue.TiempoDedicado != null)
+                                    {
+                                        <a href="#">Dedicado : @Model.Issue.TiempoDedicado minutos</a>
+                                    }
+                                        
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="chat-message-form">
+
+                            <form id="nuevoMensaje">
+
+                                <textarea required type="text" placeholder="Mensaje" id="mensaje" class="form-control"></textarea>
+                                <button class="btn btn-primary">Enviar</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $("#mensaje").jqte();
+            @*$("#cerrarTarea").click(function() {
+                var button = $(this);
+                bootbox.confirm("¿Cambiar estado de tarea a Finalizado?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/IssuesApi/" + @Model.Issue.Id,
+                            method: "Patch",
+                            success: function () {
+                                //table.row(button.parents("tr")).remove().draw();
+                                //location.reload();
+                                toastr.info("Tarea Finalizada correctamente :)");
+                                window.location.href = "/issues/IndexIssues";
+
+                            }
+                        });
+                    }
+
+                })
+            });*@
+
+            //btn
+
+        //form
+            $("#cerrarTarea").click(function() {
+                //var button = $(this);
+                //var id = button.attr("data-tarea-id");
+                $("#modalCerrar").modal();
+                $("#cerrar").click(function () {
+                    $.ajax({
+                        url: "/api/IssuesApi",
+                        method: "Patch",
+                        data: {
+                            IssueId: @Model.Issue.Id,
+                           
+                            Tiempo: $("#minutos").val()
+
+
+
+
+                        },
+                        success: function () {
+
+                            window.location.href = "/issues/IndexIssues";
+
+
+                        }
+                    });
+                });
+               
+
+                
+
+            });
+
+            $("#nuevoMensaje").validate({
+                submitHandler: function () {
+                    $.ajax({
+                        url: "/api/MensajesApi",
+                        method: "Post",
+                        data: {
+                            Mensaje: $('#mensaje').val(),
+                            IssueId : @Model.Idissue,
+
+
+                        }
+
+
+
+
+                    })
+                                     .done(function () {
+                                         toastr.success("Mensaje agregado al historial de la tarea");
+                                         location.reload();
+                                         validator.resetForm();
+                                     })
+                                    .fail(function () {
+                                        toastr.error("Algo falló, por favor intenta nuevamente");
+
+                                    })
+                }
+            });
+
+            //});
+
+            $("#liberar").click(function() {
+                var button = $(this);
+                bootbox.confirm("¿Liberar tarea al resto de los tecnicos?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/IssuesTecnicosApi",
+                            method: "Post",
+                            data: {
+                       
+                                Id :@Model.Issue.Id
+
+
+
+                            },
+                            success: function () {
+                                //table.row(button.parents("tr")).remove().draw();
+                                //location.reload();
+                                toastr.info("Tarea Finalizada correctamente :)");
+                                window.location.href = "/issues/IndexIssues";
+
+                            }
+                        });
+                    }
+
+                })
+            });
+
+        });
+    </script>
+}

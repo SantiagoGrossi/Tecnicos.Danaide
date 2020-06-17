@@ -1,0 +1,92 @@
+﻿@model Inspinia_MVC5_SeedProject.CustomObjects.GenericoUnString
+@{
+    ViewBag.Title = "Grafana";
+}
+
+<h2>Grafano solo Get</h2>
+
+<table id="camaras" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Nodo</th>
+            <th>Nombre</th>
+            <th>Channel Name</th>
+            <th>Ip</th>
+            <th>Usuario</th>
+            <th>Pass</th>
+            <th>Encoder 1</th>
+            <th>Encoder 2</th>
+
+
+
+
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            //var id = 7;
+            var table = $("#camaras").DataTable({
+
+                ajax: {
+                    url: "/Api/GrafanaApi/" + "@Model.stringGenerico",
+                    dataSrc: ""
+                },
+                columns: [
+
+                    {
+                        data: "NodoNombre",
+                        render: function (data, type, camara) {
+                            if (camara.System == null) {
+                                return "<a" + camara.NodoNombre + "'>" + data +  "</a>";
+                            }
+                            return "<a" + camara.NodoNombre + "'>" + camara.NodoNombre + ' ' + camara.System + "</a>";
+                        }
+                    },
+                    //{
+                    //    data: "NodoNombre"
+                    //},
+                    {
+                        data: "NombreCamara"
+                    },
+                    {
+                        data: "ChannelName"
+                    },
+                    {
+                        data: "Ip"
+                    },
+                    {
+                        data: "Usuario"
+                    },
+                    {
+                        data: "Pass"
+                    },
+                    {
+                        data: "NombreCamara",
+                        render: function (data, type, camara) {
+                            return "<a" + camara.NombreCamara + "'>" + camara.Retention +' Disk: '+ camara.StorageDrive+ "</a>";
+                        }
+                    },
+                    {
+                        data: "NombreCamara",
+                        render: function (data, type, camara) {
+                            return "<a" + camara.NombreCamara + "'>" + camara.Retention2 + ' Disk: ' + camara.StorageDrive2 + "</a>";
+                        }
+                    },
+
+
+                ]
+            });
+
+
+        });
+    </script>
+}
+
+

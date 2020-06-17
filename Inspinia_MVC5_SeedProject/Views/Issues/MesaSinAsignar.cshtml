@@ -1,0 +1,116 @@
+﻿@{
+    ViewBag.Title = "Mesa sin asignar";
+}
+
+
+<table id="tareas" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+
+    @*<table id="tareas" class="table table-bordered table-hover">*@
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Cliente</th>
+            <th>Titulo</th>
+            <th>Area</th>
+
+            <th>Fecha creado</th>
+            <th>Criticidad</th>
+            <th>Tomar</th>
+
+
+
+
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $("#tareas").DataTable(
+                {
+                    "sScrollX": '100%',
+                    "pageLength": 25,
+
+                    "responsive": true,
+                    "ajax": {
+                        "url": "/Issues/MesaSinAsignarTabla",
+                        "type": "GET",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                       {
+                           data: "Id",
+                           render: function (data, type, issue) {
+                               return "<a class='data-tarea-id=" + issue.Id + " js-issue' href='/issues/historialissue/" + issue.Id + "'>" + issue.Id + "</a>";
+                           }
+                       },
+                    {
+                        data: "Clientes.Nombre"
+                    },
+                    {
+                        data: "Titulo"
+                    },
+                    {
+                        data: "AreaTecnicos.Nombre"
+                    },
+
+
+                    {
+                        data: "FechaCreadaString"
+                    },
+
+                    {
+                        data: "CriticidadIssue.Nombre"
+                    },
+                    {
+                        data: "TecnicoAsignado.Nombre",
+                        render: function (data, type, issue) {
+                            if (data == null) {
+                                return "<a class='btn-link js-tomar' data-issue-id=" + issue.Id + "> Tomar </button>";
+                            } else {
+                                //return "<a" + data + "'>" +  + ' ' + "</a>";
+                                return "<a class='btn-link js-desligar' data-issue-id=" + issue.Id + "> Desligarme </button>";
+                            }
+
+                        }
+                    },
+
+
+                    ]
+
+                });
+            //reporte con fechas
+
+            $("#tareas").on("click", ".js-tomar", function () {
+                var button = $(this);
+                //prueba print + idwindow.location.href = '/Pdfs/generarCupon/' + button.attr("data-poliza-id");
+                bootbox.confirm("¿Tomar esta tarea? ", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/IssuesTecnicosApi/" + button.attr("data-issue-id"),
+                            method: "Patch",
+                            success: function () {
+                                //table.row(button.parents("tr")).remove().draw();
+                                //table.ajax.reload();
+                                toastr.info("Tarea tomada satisfactoriamente :)");
+
+                                location.reload();
+
+                            }
+                        });
+                    }
+
+                })
+
+            });
+
+
+
+
+        });
+    </script>
+}

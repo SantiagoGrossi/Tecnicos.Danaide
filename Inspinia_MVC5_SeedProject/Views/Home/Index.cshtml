@@ -1,0 +1,31 @@
+﻿@model Inspinia_MVC5_SeedProject.ViewModels.HomeViewModel
+@{
+    ViewBag.Title = "Inicio";
+}
+
+@section scripts{
+    <script>
+
+            $(document).ready(function () {
+
+
+                $(".col-lg-4").click(function () {
+                    id = $(this).attr('id');
+                    window.location.href = "/Tareas/tareasPorUsuario/" + id;
+                });
+
+                $(".tareaPendiente").click(function () {
+                    id = $(this).attr('id');
+                    window.location.href = "/tareas/editar/" + id;
+                });
+
+                $(".tareaAsignada").click(function () {
+                    id = $(this).attr('id');
+                    window.location.href = "/tareas/editar/" + id;
+                });
+
+            });
+
+
+    </script>
+}

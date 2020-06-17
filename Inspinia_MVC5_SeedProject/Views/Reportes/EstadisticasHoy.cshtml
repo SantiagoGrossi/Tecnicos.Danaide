@@ -1,0 +1,153 @@
+﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+@{
+    ViewBag.Title = "Estadisticas de hoy";
+}
+
+<div style="height:1300px">
+
+
+    <h2>Reportes y estadísticas</h2>
+    @*Clientes por dia*@
+    <div class="col-lg-6">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <label style="font-size:15px">Tareas por clientes de hoy</label>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-12" style="padding-bottom:15px">
+                        <div class="input-daterange input-group input-block" id="date-range">
+                            <span class="input-group-addon">De</span>
+                            <input type="text" class="input-sm form-control date" name="start" id="DateStart" "=" ">
+                            <span class="input-group-addon">a</span>
+                            <input type="text" class="input-sm form-control date" name="end" id="DateEnd">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label class="label label-default block" style="font-size:13px" id="chartjs-legend chart3">Total:</label>
+                    </div>
+                </div>
+                <div class="text-center" id=""><canvas id="TareasClienteHoy" height="145"></canvas></div>
+
+            </div>
+        </div>
+    </div>
+    @*Clientes total*@
+
+    <div class="col-lg-6">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <label style="font-size:15px">Tareas por cliente total</label>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-12" style="padding-bottom:15px">
+                        <div class="input-daterange input-group input-block" id="date-range">
+                            <span class="input-group-addon">De</span>
+                            <input type="text" class="input-sm form-control date" name="start" id="DateStart" "=" ">
+                            <span class="input-group-addon">a</span>
+                            <input type="text" class="input-sm form-control date" name="end" id="DateEnd">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label class="label label-default block" style="font-size:13px" id="chartjs-legend chart3">Total:</label>
+                    </div>
+                </div>
+                <div class="text-center" id=""><canvas id="TareasClienteTotal" height="145"></canvas></div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script>
+            $(document).ready(function () {
+
+                function traerDatosClienteHoy() {
+                    $.ajax({
+                        type: "GET",
+                        url: "/Reportes/EstadisticasHoyPorCliente",
+                        success: function (data) {
+
+                            feedChartClienteHoy(data);
+
+
+                        },
+                        error: function (error) {
+                            alert = "Algo salió mal, avisale a Santiago :("
+                        }
+                    })
+                };
+
+
+                function feedChartClienteHoy(data) {
+                    var ctxP = document.getElementById("TareasClienteHoy").getContext('2d');
+                    var myPieChart = new Chart(ctxP, {
+                        type: 'pie',
+                        data: {
+                            label: data.objetoFinal.Total,
+                            labels: data.objetoFinal.Strings,
+                            datasets: [{
+                                data: data.objetoFinal.Ints,
+                                backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#33FF58", "#3393FF", "#E933FF", "#1D4416", "#050606"],
+                                hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#33FF58", "#3393FF", "#E933FF", "#1D4416", "#050606"]
+                            }]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    });
+                };
+
+                traerDatosClienteHoy();
+
+                //segundo
+
+                function traerDatosClienteTotal() {
+                    $.ajax({
+                        type: "GET",
+                        url: "/Reportes/EstadisticasPorClienteTotal",
+                        success: function (data) {
+
+                            feedChartClienteTotal(data);
+
+
+                        },
+                        error: function (error) {
+                            alert = "Algo salió mal, avisale a Santiago :("
+                        }
+                    })
+                };
+
+                function feedChartClienteTotal(data) {
+                    var ctxP = document.getElementById("TareasClienteTotal").getContext('2d');
+                    var myPieChart = new Chart(ctxP, {
+                        type: 'pie',
+                        data: {
+                            label: data.objetoFinal.Total,
+                            labels: data.objetoFinal.Strings,
+                            datasets: [{
+                                data: data.objetoFinal.Ints,
+                                backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#33FF58", "#3393FF", "#E933FF", "#1D4416", "#050606"],
+                                hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#33FF58", "#3393FF", "#E933FF", "#1D4416", "#050606"]
+                            }]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    });
+                };
+                traerDatosClienteTotal();
+            });
+    </script>
+}
+
+

@@ -1,0 +1,119 @@
+﻿@{
+    ViewBag.Title = "Guardias";
+}
+
+<br />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.print.css" rel="stylesheet" media="print" />
+
+<div id="calender" class="fc fc-unthemed fc-ltr"></div>
+
+@section scripts{
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.0/fullcalendar.min.js'></script>
+
+    <script>
+        $(document).ready(function(){
+            var calendar = $('#calender').fullCalendar({  // assign calendar
+            });
+
+
+            var events = [];
+            $.ajax({
+                type: "GET",
+                url: "/Api/DiasDeGuardiasApi",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        events.push({
+                            title: v.UsuarioDeGuardia.Nombre,
+                            Id: v.Id,
+                            Nombre: v.UsuarioDeGuardia.Nombre,
+                            //TipoGuardia: v.TipoGuardia.Nombre,
+                            FechaInicio: v.Inicia,
+                            FechaFin: v.Termina,
+                            Color: v.UsuarioDeGuardia.Color,
+                            start: moment(v.Inicia).format(),
+                            end: moment(v.Termina).format()
+
+
+                        })
+                    })
+                    GenerateCalendar(events);
+                },
+                error: function (error) {
+                    alert = "Algo falló, avisale a santiago :("
+                }
+            })
+
+            function GenerateCalendar(events) {
+                $('#calender').fullCalendar('destroy');
+                $('#calender').fullCalendar({
+                    Boolean, default: false,
+                    editable: true,
+                    eventStartEditable: true,
+                    eventDurationEditable: true,
+                    eventResourceEditable: true,
+                    droppable:true,
+                    displayEventTime: false,
+                    contentHeight: 600,
+                    defaultDate: new Date(),
+                    timeFormat: 'hh:(:mm)a',
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month, basickWeek,basicDay'
+                    },
+                    eventLimit: 4,
+                    eventColor: '#'+ event.Color,
+
+                    events: (events),
+
+                    eventRender: function (event, element, view) {
+
+                        element.css({
+                            'background-color': event.Color,
+                            'border-color': event.Color
+                        })
+
+
+                    },
+                    eventClick: function (calEvent, jsEvent, view) {
+                        $('#myModal #eventTitle').text(calEvent.title)
+                        $('#myModal').modal()
+
+                        var $description = $('<div/>');
+
+                        $description.append($('<p/>').html('<b>Nombre: </b>' + calEvent.Nombre));
+                        $description.append($('<p/>').html('<b>Empieza: </b>' + calEvent.FechaInicio));
+                        $description.append($('<p/>').html('<b>Termina: </b>' + calEvent.FechaFin));
+
+
+                    },
+                    eventDrop: function (info, calEvent, jsEvent, view, date, dropInfo) {
+                        bootbox.confirm("¿Cambiar la guardia día: ?" + calEvent.FechaInicio + "\n" +"El cambio debe ser autorizado por un administrador", function (result) {
+                        })
+                        //alert(calEvent.Nombre);
+                        //alert(date.format());
+                        //var fecha = new Date();
+
+                        //alert(fecha.getDate());
+                        //alert(info.getDate());
+                        //alert(fecha.getDay);
+                    }
+
+
+
+                })
+            }
+            //$('.evento').draggable({
+            //    revert: false,      // immediately snap back to original position
+            //    revertDuration: 0  //
+            //});
+
+        });
+
+
+    </script>
+
+}

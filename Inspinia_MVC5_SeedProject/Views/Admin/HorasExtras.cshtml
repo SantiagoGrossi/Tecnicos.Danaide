@@ -1,0 +1,91 @@
+﻿@model Inspinia_MVC5_SeedProject.ViewModels.HorasExtrasViewModel
+
+@{
+    ViewBag.Title = "Horas extras";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+<script src="https://rawgit.com/tempusdominus/bootstrap-4/master/build/js/tempusdominus-bootstrap-4.js"></script>
+
+
+
+<h2>Horas extras</h2>
+
+
+<hr />
+<br />
+<p class="font-bold">
+    Horas del mes: @Model.NombreMes
+</p>
+
+@foreach (var Usuario in Model.VistaHsExtrasModel)
+{
+    <div class="widget navy-bg p-xl" style="background-color:@Usuario.Usuario.Color">
+        <h2>
+            @Usuario.Usuario.Nombre - Totales Normales: @Usuario.CantHorasNormales  - Totales Fin de Semana: @Usuario.CantHorasFinDeSemana
+        </h2>
+        <ul class="list-unstyled m-t-md">
+            @foreach (var hora in Usuario.Horas)
+                {
+                <li>
+                    <span class="fa fa-clock-o m-r-xs"></span>
+                    <label>@hora.Cantidad hs</label>
+                    por: @hora.Motivo - Tipo:
+                    @hora.TipoHoraExtraNombre .
+                    Cargada el: @hora.Fecha
+                    - Desde: @hora.Desde - Hasta: @hora.Hasta
+
+                </li>
+
+            }
+        </ul>
+    </div>
+}
+@*@foreach (var hora in Model.VistaHsExtrasModel)
+    {
+
+            <div class="widget @hora.ColorUsuario p-xl">
+
+                <h2>
+                    @hora.UsuarioNombre - Totales Normales: @hora.CantHorasNormales - Totales Fin de Semana: @hora.CantHorasFinDeSemana || durante el mes @hora.NombreMes
+                </h2>
+
+                <ul class="list-unstyled m-t-md">
+
+                    @foreach (var lista in hora.HoraExtra)
+                    {
+                        <li>
+                            <span class="fa fa-clock-o m-r-xs"></span>
+                            <label>@lista.Cantidad hs</label>
+                            por: @lista.Motivo - Tipo:
+                            @lista.TipoHoraExtraNombre .
+                            Cargada el: @lista.Fecha
+                            - Desde: @lista.Desde - Hasta: @lista.Hasta
+
+                        </li>
+
+                    }
+
+                </ul>
+                <span></span>
+            </div>
+
+
+    }*@
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+
+
+
+
+        });
+    </script>
+}

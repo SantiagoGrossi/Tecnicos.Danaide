@@ -1,0 +1,266 @@
+﻿@model Inspinia_MVC5_SeedProject.ViewModels.EstadosTicketsViewModel
+@using Inspinia_MVC5_SeedProject.Models
+
+@{
+    ViewBag.Title = "Administración de tickets, solo admin";
+}
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><span id="eventTitle">Contraseña de admin requerida.</span></h4>
+            </div>
+            <div class="modal-body">
+                <p id="pDetails">asd</p>
+                <p id="vencimiento" class="js-delete"></p>
+                <input id="pass" name="pass" type="text" class="form-control" value="" placeholder="Contraseña de administrador." />
+                <br />
+                <button class="btn btn-success js-delete" id="eliminar">Eliminar</button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<form class="form-group" action="~/Controllers/AdminEstadosTickets/nuevoEstado" method="post" id="nuevoEstado">
+<div class="row">
+    <div class="col-sm-5">
+        <div class="form-group">
+            <label>Estado:</label>
+            <div class="tt-container">
+                <input id="estado" name="estado" type="text" class="form-control" value="" placeholder="Nuevo posible estado de ticket" />
+            </div>
+        </div>
+    </div>
+</div> 
+</form>
+
+
+<button class="btn btn-primary" id="crearNuevoEstado">Submit</button>
+
+<div class="row">
+    <div classs="col-sm-6">
+        
+    </div>
+    <div classs="col-sm-6">
+
+    </div>
+</div>
+
+
+<h2>Admin de tickets</h2>
+
+
+<table id="estados" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cambiar estado</th>
+
+            @*<th>Devolver</th>*@
+            <th><button class="btn btn-danger" id="asd">X</button></th>
+
+        </tr>
+
+    </thead>
+</table>
+
+@section scripts{
+@Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+
+            
+
+            function generateModal() {
+                $('#myModal').modal();
+                var $description = $('<div/>');
+                $('#myModal #pDetails').empty().html($description);
+                $("#eliminar").click(function () {
+
+                    if ($('#pass').val() == "3075Mesa") {
+                        $.ajax({
+                            url: "/api/EstadosTicketsApi/" + idEstado,
+                            method: "DELETE",
+                            success: function () {
+                                //table.row(button.parents("tr")).remove().draw();
+                                table.ajax.reload();
+                                toastr.success("Estado eliminado satisfactoriamente..");
+
+
+                            }
+
+                        });
+
+                    }
+                    else {
+                        alert("asd");
+                    }
+
+                });
+
+            };
+            var vm = {
+
+            };
+            var table = $("#estados").DataTable({
+                ajax: {
+                    url: "/api/EstadosTicketsApi",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+
+                        data: "Nombre",
+                        render: function (data, type,estado) {
+                            return "<a href='/Admin/EditarEstadoTicket/" + estado.Id + "'>" + estado.Estado + "</a>";
+                        }
+
+                    },
+                    {
+                        data: "isActive",
+                        render: function (data,type,estado) {
+                            if (data == true) {
+                                return "<button class='btn btn-success js-patch' data-estado-id=" + estado.Id + ">Dar de baja</button>";
+                            }
+                            else {
+                                return "<button class='btn btn-danger js-patch' data-estado-id=" + estado.Id + ">Dar de alta</button>";
+                            }
+
+                        }
+
+                    },
+                    {
+                        data: "Id",
+                        render: function (data) {
+                            return "<button class='btn btn-danger js-delete' data-estado-id=" + data + ">Eliminar</button>";
+                        }
+                    },
+
+
+
+
+
+
+
+                ]
+
+            });
+
+            //validacion y submit
+            $("#crearNuevoEstado").click(function () {
+
+
+                    //e.preventDefault();
+                    $.ajax({
+                        url: "/api/EstadosTicketsApi",
+                        method: "post",
+                        data: {
+                            //nombre: $('#estado').val(),
+                            estado :$('#estado').val()
+                        }
+
+                    })
+                    .done(function () {
+                        
+
+                        $("#estado").val("");
+                        table.ajax.reload();
+                        //validar.ResetForm();
+                        toastr.success("Estado añadido satisfactoriamente");
+
+                    })
+
+                    .fail(function () {
+                        toastr.error("El estado ya existe?");
+
+                    })
+
+                
+            });
+            
+            //xd
+
+
+
+
+            $("#estados").on("click", ".js-patch", function () {
+                var button = $(this);
+                bootbox.confirm("Requiere autenticación de admin para eliminar el estado del ticket.", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/EstadosTicketsApi/" + button.attr("data-estado-id"),
+                            method: "Patch",
+                            success: function () {
+                                //table.row(button.parents("tr")).remove().draw();
+                                table.ajax.reload();
+                                toastr.success("Estado modificado satisfactoriamente..");
+
+
+                            }
+                        });
+                    }
+                })
+
+            })
+
+
+            $("#estados").on("click", ".js-delete", function () {
+               // var idEstado = button.attr("data-estado-id");
+                //generateModal();
+                //llamar a modal y poner contraseña
+                //donde alojar contraseña de admin?
+                var button = $(this);
+                bootbox.prompt({
+                    title: "Se requiere contraseña para eliminar",
+                    inputType: 'password',
+                    callback: function (result) {
+                        alert("asd");
+                    }
+                });
+
+
+
+                //if (result) {
+
+
+                //        $.ajax({
+                //            url: "/api/EstadosTicketsApi/" + button.attr("data-estado-id"),
+                //            method: "DELETE",
+                //            success: function () {
+                //                //table.row(button.parents("tr")).remove().draw();
+                //                table.ajax.reload();
+                //                toastr.success("Estado eliminado satisfactoriamente..");
+
+
+                //            }
+
+                //        });
+                    //    }
+
+
+                
+
+
+
+
+            })
+
+
+
+
+
+
+        })
+    </script>
+}
