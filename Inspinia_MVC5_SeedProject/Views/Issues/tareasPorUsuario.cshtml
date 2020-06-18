@@ -50,38 +50,42 @@
     </div>
 
 </div>
-<table id="tareas" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+<div class="ibox">
+    <div class="ibox-content">
+        <table id="tareas" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
 
-    @*<table id="tareas" class="table table-bordered table-hover">*@
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Cliente</th>
-            <th>Titulo</th>
-            <th>Area</th>
-            <th>Reclamado</th>
-            <th>Asignado a:</th>
-            <th>Fecha creado</th>
-            <th>Criticidad</th>
-            <th>Estado</th>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Cliente</th>
+                    <th>Titulo</th>
+                    <th>Area</th>
+                    <th>Reclamado</th>
+                    <th>Asignado a:</th>
+                    <th>Fecha creado</th>
+                    <th>Criticidad</th>
+                    <th>Estado</th>
 
 
 
 
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        </div>
+    </div>
+        
 
-@section scripts
+        @section scripts
 {
-    <script>
-        $(document).ready(function () {
+            <script>
+                $(document).ready(function () {
 
-            //var id= idUsuario.toString();
-            //var id = 7;
+                    //var id= idUsuario.toString();
+                    //var id = 7;
 
-            @*var table = $("#tareas").DataTable({
+                    @*var table = $("#tareas").DataTable({
                 "scrollX": true,
                 responsive :true,
                 ajax: {
@@ -98,138 +102,138 @@
 
 
                 ]*@
-            $("#tareas").on("click", ".js-estado", function () {
-                var button = $(this);
-                var id = button.attr("data-tarea-id");
-                $("#modalCerrar").modal();
-                $("#cerrar").click(function () {
-                    $.ajax({
-                        url: "/api/IssuesApi",
-                        method: "Patch",
-                        data: {
-                            IssueId: id,
+                    $("#tareas").on("click", ".js-estado", function () {
+                        var button = $(this);
+                        var id = button.attr("data-tarea-id");
+                        $("#modalCerrar").modal();
+                        $("#cerrar").click(function () {
+                            $.ajax({
+                                url: "/api/IssuesApi",
+                                method: "Patch",
+                                data: {
+                                    IssueId: id,
 
-                            Tiempo: $("#minutos").val()
-
-
+                                    Tiempo: $("#minutos").val()
 
 
-                        },
-                        success: function () {
-                            location.reload();
-                            table.ajax.reload();
-                            toastr.info("Tarea Finalizada correctamente :)");
-                            $("#modalCerrar").modal('toggle');
 
 
-                        }
+                                },
+                                success: function () {
+                                    location.reload();
+                                    table.ajax.reload();
+                                    toastr.info("Tarea Finalizada correctamente :)");
+                                    $("#modalCerrar").modal('toggle');
+
+
+                                }
+                            });
+                        });
+
+
+
+
                     });
+                    $("#tareas").DataTable(
+                        {
+                            "sScrollX": '100%',
+                            //"scrollx": true,
+                            "responsive": true,
+                            "ajax": {
+                                "url": "/Issues/tareasPorUsuarioTabla/" + "@Model.stringGenerico",
+                                "type": "GET",
+                                "datatype": "json"
+                            },
+                            "columns": [
+                               {
+                                   data: "Id",
+                                   render: function (data, type, issue) {
+                                       //return "<a href='/issues/editar/" + issue.Id + "'>" + issue.Id + "</a>";
+                                       return "<a class='data-tarea-id=" + issue.Id + " js-issue' href='/issues/historialissue/" + issue.Id + "'>" + issue.Id + "</a>";
+                                   }
+                               },
+                            {
+                                data: "Clientes.Nombre"
+                            },
+                            {
+                                data: "Titulo"
+                            },
+                            {
+                                data: "AreaTecnicos.Nombre"
+                            },
+                            {
+                                data: "VecesReclamado",
+                                render: function (data, type, issue) {
+                                    return "<a" + data + "'>" + data + ' Reclamos' + "</a>";
+                                }
+                            },
+                            {
+                                data: "TecnicoAsignado.Nombre",
+                                render: function (data, type, issue) {
+                                    if (data == null) {
+                                        return "<a class='btn-link js-delete' data-tarea-id=" + issue.Id + "> Asignar tecnico </button>";
+                                    } else {
+                                        return "<a" + data + "'>" + data + ' ' + "</a>";
+                                    }
+
+                                }
+                            },
+                            {
+                                data: "FechaCreadaString"
+                            },
+                            {
+                                data: "CriticidadIssue.Nombre"
+                            },
+                            {
+                                data: "EstadoIssue.Nombre",
+                                render: function (data, type, issue) {
+                                    if (issue.EstadoIssue.Nombre == "Abierto") {
+                                        return "<button class='btn-link js-estado' data-tarea-id=" + issue.Id + "> Abierta </button>";
+                                    }
+                                    if (issue.EstadoIssue.Nombre == "En proceso") {
+                                        return "<button class='btn-link js-estado' data-tarea-id=" + issue.Id + "> En curso </button>";
+                                    }
+                                    if (issue.EstadoIssue.Nombre == "Finalizado") {
+                                        return "<button class='btn-link js-estado' data-tarea-id=" + issue.Id + "> Finalizado </button>";
+                                    }
+
+
+                                }
+                            }
+
+                            ]
+
+                        });
+                    //2
+
+
+
+                    //$("#tareas").on("click", ".js-estado", function () {
+                    //    var button = $(this);
+                    //    //prueba print + idwindow.location.href = '/Pdfs/generarCupon/' + button.attr("data-poliza-id");
+                    //    bootbox.confirm("¿Cambiar estado de tarea a Finalizado?", function (result) {
+                    //        if (result) {
+                    //            $.ajax({
+                    //                url: "/api/IssuesApi/" + button.attr("data-tarea-id"),
+                    //                method: "Patch",
+                    //                success: function () {
+                    //                    //table.row(button.parents("tr")).remove().draw();
+                    //                    //location.reload();
+                    //                    table.ajax.reload();
+                    //                    toastr.info("Tarea Finalizada correctamente :)");
+
+
+                    //                }
+                    //            });
+                    //        }
+
+                    //    })
+
+                    //});
+
+
+
                 });
-
-
-
-
-            });
-            $("#tareas").DataTable(
-                {
-                    "sScrollX": '100%',
-                    //"scrollx": true,
-                    "responsive": true,
-                    "ajax": {
-                        "url": "/Issues/tareasPorUsuarioTabla/" + "@Model.stringGenerico",
-                        "type": "GET",
-                        "datatype": "json"
-                    },
-                    "columns": [
-                       {
-                           data: "Id",
-                           render: function (data, type, issue) {
-                               //return "<a href='/issues/editar/" + issue.Id + "'>" + issue.Id + "</a>";
-                               return "<a class='data-tarea-id=" + issue.Id + " js-issue' href='/issues/historialissue/" + issue.Id + "'>" + issue.Id + "</a>";
-                           }
-                       },
-                    {
-                        data: "Clientes.Nombre"
-                    },
-                    {
-                        data: "Titulo"
-                    },
-                    {
-                        data: "AreaTecnicos.Nombre"
-                    },
-                    {
-                        data: "VecesReclamado",
-                        render: function (data, type, issue) {
-                            return "<a" + data + "'>" + data + ' Reclamos' + "</a>";
-                        }
-                    },
-                    {
-                        data: "TecnicoAsignado.Nombre",
-                        render: function (data, type, issue) {
-                            if (data == null) {
-                                return "<a class='btn-link js-delete' data-tarea-id=" + issue.Id + "> Asignar tecnico </button>";
-                            } else {
-                                return "<a" + data + "'>" + data + ' ' + "</a>";
-                            }
-
-                        }
-                    },
-                    {
-                        data: "FechaCreadaString"
-                    },
-                    {
-                        data: "CriticidadIssue.Nombre"
-                    },
-                    {
-                        data: "EstadoIssue.Nombre",
-                        render: function (data, type, issue) {
-                            if (issue.EstadoIssue.Nombre == "Abierto") {
-                                return "<button class='btn-link js-estado' data-tarea-id=" + issue.Id + "> Abierta </button>";
-                            }
-                            if (issue.EstadoIssue.Nombre == "En proceso") {
-                                return "<button class='btn-link js-estado' data-tarea-id=" + issue.Id + "> En curso </button>";
-                            }
-                            if (issue.EstadoIssue.Nombre == "Finalizado") {
-                                return "<button class='btn-link js-estado' data-tarea-id=" + issue.Id + "> Finalizado </button>";
-                            }
-                            
-
-                        }
-                    }
-                 
-                    ]
-
-                });
-            //2
-
-
-
-            //$("#tareas").on("click", ".js-estado", function () {
-            //    var button = $(this);
-            //    //prueba print + idwindow.location.href = '/Pdfs/generarCupon/' + button.attr("data-poliza-id");
-            //    bootbox.confirm("¿Cambiar estado de tarea a Finalizado?", function (result) {
-            //        if (result) {
-            //            $.ajax({
-            //                url: "/api/IssuesApi/" + button.attr("data-tarea-id"),
-            //                method: "Patch",
-            //                success: function () {
-            //                    //table.row(button.parents("tr")).remove().draw();
-            //                    //location.reload();
-            //                    table.ajax.reload();
-            //                    toastr.info("Tarea Finalizada correctamente :)");
-
-
-            //                }
-            //            });
-            //        }
-
-            //    })
-
-            //});
-
-
-
-        });
-    </script>
-}
+            </script>
+        }
 

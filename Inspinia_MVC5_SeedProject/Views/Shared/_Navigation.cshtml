@@ -112,10 +112,17 @@
                         <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Aubasa" })">Aubasa</a>
                     </li>
 
-
-                    <li>
-                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Subte" })">Por ip</a>
+                    <li class="">
+                        <a href="#" aria-expanded="false">Spb <span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level collapse" aria-expanded="false" style="">
+                            <li>
+                                <a href="@Url.Action("IndexGrafanaPorIp", "Grafana", new { NombreCliente = "Por ip" })">Por ip</a>
+                                @*<input type="text" class="form-control" placeholder="Ip system unidad" id="IpSystem" />
+                                <button type="submit" class="btn btn-success" id="getGrafana"> <span class="fa search"></span>Get</button>*@
+                            </li>
+                        </ul>
                     </li>
+                    
                 </ul>
            
        
@@ -134,3 +141,19 @@
 
     </div>
 </nav>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            
+
+            alert("asd");
+
+
+        });
+    </script>
+}
+    
+
+
+

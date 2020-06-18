@@ -47,3 +47,15 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+
+
+            alert("asd");
+
+
+        });
+    </script>
+}

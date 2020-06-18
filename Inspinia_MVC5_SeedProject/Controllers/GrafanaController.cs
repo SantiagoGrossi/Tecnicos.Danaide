@@ -26,14 +26,25 @@ namespace Inspinia_MVC5_SeedProject.Controllers
 
             return View(viewmodel);
         }
-
-        public ActionResult GrafanaCamaras(string ip)
+        public ActionResult IndexGrafanaPorIp(string Ip)
         {
+            var viewmodel = new CustomObjects.GenericoUnString
+            {
+                stringGenerico = Ip
+            };
+
+            return View(viewmodel);
+        }
+
+        public ActionResult GrafanaCamaras(string id)
+        {
+            //id.Replace("-", ".");
+            var ip = id.Replace("-", ".") + @"\XDR";
             var listastring = new List<String>();
             var Lista = new List<ListIntListString>();
             var camaras = new List<Camaras>();
 
-            string connString = ("Data Source=" + ip + " ; User ID =evtAdmin;Password=a");
+            string connString = (@"Data Source=" + ip + " ; User ID =evtAdmin;Password=a");
             //string connString = @"Data Source = 10.200.3.120\XDR; User ID =evtAdmin;Password=a";
             //string connString = @"Data Source = 10.200.3.120\XDR; User ID =evtAdmin;Password=a";
             //connString.Remove(21,1);
@@ -145,12 +156,12 @@ Devices.NodeIdentity=Nodes.NodeIdentity
         
 
 
-        var serializer = new JavaScriptSerializer();
-            serializer.MaxJsonLength = 500000000;
-            var jsonResult = Json(camaras, JsonRequestBehavior.AllowGet);
-            jsonResult.MaxJsonLength = int.MaxValue;
-            return jsonResult;
-            //return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
+        //var serializer = new JavaScriptSerializer();
+        //    serializer.MaxJsonLength = 500000000;
+        //    var jsonResult = Json(camaras, JsonRequestBehavior.AllowGet);
+        //    jsonResult.MaxJsonLength = int.MaxValue;
+        //    return jsonResult;
+            return Json(new { data = camaras }, JsonRequestBehavior.AllowGet);
         }
     }
 }

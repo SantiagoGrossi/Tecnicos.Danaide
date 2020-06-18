@@ -5,126 +5,108 @@
     ViewBag.Title = "Nueva Issue";
 }
 
-<h5>Crear tarea nueva</h5>
-<div class="row">
-    <div class="col-lg-6">
-        @*@using (Html.BeginForm("GuardarIssue", "Issues"))
-            {
-                @Html.ValidationSummary(true, "Validar antes de enviar")
-                <div class="row">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Issue.Titulo)
-                        @Html.TextBoxFor(m => m.Issue.Titulo, new { placeholder = "Resumen de la tarea", @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Issue.Titulo)
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Issue.Descripcion)
-                        @Html.TextBoxFor(m => m.Issue.Descripcion, new { placeholder = "Descripcion:", @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Issue.Descripcion)
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Issue.Clientes)
-                        @Html.DropDownListFor(m => m.Issue.ClientesId, new SelectList(Model.Clientes, "Id", "Nombre"), "", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Issue.ClientesId)
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Issue.AreaTecnicos)
-                        @Html.DropDownListFor(m => m.Issue.AreaTecnicosId, new SelectList(Model.AreaTecnicos, "Id", "Nombre"), "", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Issue.AreaTecnicosId)
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Issue.TecnicoAsignado)
-                        @Html.DropDownListFor(m => m.Issue.TecnicoAsignadoId, new SelectList(Model.Usuario, "Id", "Nombre"), "", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Issue.TecnicoAsignadoId)
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Issue.CriticidadIssue)
-                        @Html.DropDownListFor(m => m.Issue.CriticidadIssueId, new SelectList(Model.CriticidadIssue, "Id", "Nombre"), "", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Issue.CriticidadIssueId)
-                    </div>
-
-                    @Html.HiddenFor(m => m.Issue.Id)
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-primary">Enviar issue a tecnicos</button>
-
-                </div>
-
-            }*@
-
-        <div class="container">
-            <div class="row">
-
-                <form id="nuevaTarea">
-                    <div class="col-lg-6">
-
-
-
-                        <div class="form-group">
-                            <br />
-                            <input id="titulo" name="titulo" type="text" value="" class="form-control titulo" placeholder="Titulo de la tarea" />
-                            <br />
-
-                            @*<input id="area" name="area" type="text" value="" class="form-control area areaValida" placeholder="¿A qué área pertenece?" />*@
-                        
-                         
-                            <input id="clientes" name="clientes" type="text" value="" class="form-control clienteValido clientes" placeholder="¿A qué cliente pertenece?" />
-                            <br />
-                            <br />
-                            <div class="form-group">
-                                @*@Html.LabelFor(m => m.Issue.AreaTecnicos)*@
-                                @Html.DropDownListFor(m => m.Issue.AreaTecnicosId, new SelectList(Model.AreaTecnicos, "Id", "Nombre"), " Area sin especificar", new { @class = "form-control area" })
-                                @Html.ValidationMessageFor(m => m.Issue.AreaTecnicosId)
-                            </div>
-                            <br />
-
-
-                            @*<label class="">Descripción: </label>*@
-
-                            <textarea id="txtArea" name="txtArea" placeholder="Descripción de la tarea" required style="width:100%"></textarea>
-
-                            @*<input id="asignar" name="asignar" type="text" value="" class="form-control asignar" placeholder="¿Asignar tecnico?" />*@
-                            
-                            @*<div class="input-group bootstrap-touchspin"><span class="input-group-btn"><button class="btn btn-white bootstrap-touchspin-down" type="button">-</button></span><span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span><input class="touchspin1 form-control" placeholder="Tiempo trabajado en minutos" id="minutos" type="number" value="" name="demo1" style="display: block"><span class="input-group-addon bootstrap-touchspin-postfix" style="display: none"></span><span class="input-group-btn"><button class="btn btn-white bootstrap-touchspin-up" type="button">+</button></span></div>*@
-                            <br />
-                            <button type="submit" class="btn btn-primary" id="guardarissue">Guardar issue</button>
-
-
-                        </div>
-
-
-
-
-                    </div>
-
-                    <div class="col-lg-6">
-                        <br />
-                        <div class="form-group">
-                            @*@Html.LabelFor(m => m.Issue.TecnicoAsignado)*@
-                            @Html.DropDownListFor(m => m.Issue.TecnicoAsignadoId, new SelectList(Model.Usuario, "Id", "Nombre"), "¿Asignar tecnico?", new { @class = "form-control tecnico" })
-                            @Html.ValidationMessageFor(m => m.Issue.TecnicoAsignadoId)
-                        </div>
-                        <div class="form-group">
-                            @*@Html.LabelFor(m => m.Issue.CriticidadIssue)*@
-                            @Html.DropDownListFor(m => m.Issue.CriticidadIssueId, new SelectList(Model.CriticidadIssue, "Id", "Nombre"), "Criticidad", new { @class = "form-control criticidad" })
-                            @Html.ValidationMessageFor(m => m.Issue.CriticidadIssueId)
-                        </div>
-                    </div>
-                </form>
-
-
-
-
-
-                @*guardia form*@
-            </div>
+<div class="ibox">
+    <div class="ibox-title">
+        <h5>Crear issue</h5>
+        <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-wrench"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                <li>
+                    <a href="#" class="dropdown-item">Config option 1</a>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-item">Config option 2</a>
+                </li>
+            </ul>
+            <a class="close-link">
+                <i class="fa fa-times"></i>
+            </a>
         </div>
     </div>
-    <br />
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-lg-6">
+
+
+                <div class="container">
+                    <div class="row">
+
+                        <form id="nuevaTarea">
+                            <div class="col-lg-6">
+
+
+
+                                <div class="form-group">
+                                    <br />
+                                    <input id="titulo" name="titulo" type="text" value="" class="form-control titulo" placeholder="Titulo de la tarea" />
+                                    <br />
+
+                                    @*<input id="area" name="area" type="text" value="" class="form-control area areaValida" placeholder="¿A qué área pertenece?" />*@
+
+
+                                    <input id="clientes" name="clientes" type="text" value="" class="form-control clienteValido clientes" placeholder="¿A qué cliente pertenece?" />
+                                    <br />
+                                    <br />
+                                    <div class="form-group">
+                                        @*@Html.LabelFor(m => m.Issue.AreaTecnicos)*@
+                                        @Html.DropDownListFor(m => m.Issue.AreaTecnicosId, new SelectList(Model.AreaTecnicos, "Id", "Nombre"), " Area sin especificar", new { @class = "form-control area" })
+                                        @Html.ValidationMessageFor(m => m.Issue.AreaTecnicosId)
+                                    </div>
+                                    <br />
+
+
+                                    @*<label class="">Descripción: </label>*@
+
+                                    <textarea id="txtArea" name="txtArea" placeholder="Descripción de la tarea" required style="width:100%"></textarea>
+
+                                    @*<input id="asignar" name="asignar" type="text" value="" class="form-control asignar" placeholder="¿Asignar tecnico?" />*@
+
+                                    @*<div class="input-group bootstrap-touchspin"><span class="input-group-btn"><button class="btn btn-white bootstrap-touchspin-down" type="button">-</button></span><span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span><input class="touchspin1 form-control" placeholder="Tiempo trabajado en minutos" id="minutos" type="number" value="" name="demo1" style="display: block"><span class="input-group-addon bootstrap-touchspin-postfix" style="display: none"></span><span class="input-group-btn"><button class="btn btn-white bootstrap-touchspin-up" type="button">+</button></span></div>*@
+                                    <br />
+                                    <button type="submit" class="btn btn-primary" id="guardarissue">Guardar issue</button>
+
+
+                                </div>
+
+
+
+
+                            </div>
+
+                            <div class="col-lg-6">
+                                <br />
+                                <div class="form-group">
+                                    @*@Html.LabelFor(m => m.Issue.TecnicoAsignado)*@
+                                    @Html.DropDownListFor(m => m.Issue.TecnicoAsignadoId, new SelectList(Model.Usuario, "Id", "Nombre"), "¿Asignar tecnico?", new { @class = "form-control tecnico" })
+                                    @Html.ValidationMessageFor(m => m.Issue.TecnicoAsignadoId)
+                                </div>
+                                <div class="form-group">
+                                    @*@Html.LabelFor(m => m.Issue.CriticidadIssue)*@
+                                    @Html.DropDownListFor(m => m.Issue.CriticidadIssueId, new SelectList(Model.CriticidadIssue, "Id", "Nombre"), "Criticidad", new { @class = "form-control criticidad" })
+                                    @Html.ValidationMessageFor(m => m.Issue.CriticidadIssueId)
+                                </div>
+                            </div>
+                        </form>
+
+
+
+
+
+                        @*guardia form*@
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
 </div>
+    
+
 
 
 <br />
