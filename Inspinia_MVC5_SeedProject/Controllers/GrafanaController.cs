@@ -35,6 +35,10 @@ namespace Inspinia_MVC5_SeedProject.Controllers
 
             return View(viewmodel);
         }
+        public ActionResult GrafanaPorIp()
+        {
+            return View();
+        }
 
         public ActionResult GrafanaCamaras(string id)
         {

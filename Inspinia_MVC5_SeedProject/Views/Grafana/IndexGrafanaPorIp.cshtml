@@ -72,25 +72,66 @@
                 <input type="text" placeholder="Host 2" id="Host2" class="form-control">
             </div>
             
-            <button class="btn btn-white" id="getGrafana">Get</button>
+            <a href="" class="btn btn-white" id="getGrafana">Get</a>
         </form>
     </div>
 </div>
 
+<div class="modal" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="ibox">
+                    <div class="ibox-content">
 
-<div class="ibox">
+                        <table id="camaras" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nodo</th>
+                                    @*<th>Nombre</th>
+                            <th>Channel Name</th>
+                            <th>Ip</th>
+                            <th>Usuario</th>
+                            <th>Pass</th>
+                            <th>Encoder 1</th>
+                            <th>Encoder 2</th>*@
+
+
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="ibox">
     <div class="ibox-content">
         <table id="camaras" class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>Nodo</th>
-                    @*<th>Nombre</th>
+                    <th>Nombre</th>
                     <th>Channel Name</th>
                     <th>Ip</th>
                     <th>Usuario</th>
                     <th>Pass</th>
                     <th>Encoder 1</th>
-                    <th>Encoder 2</th>*@
+                    <th>Encoder 2</th>
 
 
 
@@ -101,7 +142,7 @@
         </table>
      </div>
        
-    </div>
+    </div>*@
 
 
 
@@ -110,19 +151,22 @@
 {
     <script>
         $(document).ready(function () {
-
-            //var id = 7;
+            
+            //$('#camaras').dataTable();
+            //$('#camaras').dataTable().clear();
+            var id = 7;
             $("#getGrafana").click(function () {
-
+                $("#myModal").modal();
+                $('#camaras').dataTable();
                 var id = ($("#Red1").val().concat("-").concat($("#Red2").val()).concat("-").concat($("#Host1").val()).concat("-").concat($("#Host2").val()));
                 //table.ajax.reload();
                 
-                $("#camaras").DataTable(
+                var table = $("#camaras").DataTable(
                 {
                     
                     "sScrollX": '100%',
-                    "destroy": true,
-                    destroy : true,
+                    //"destroy": true,
+                   // destroy : true,
                     //"scrollx": true,
                     "responsive": true,
                    
@@ -133,10 +177,13 @@
                         "datatype": "json",
                         "dataSrc": ""
                     },
+                   
                     "columns": [
                        {
                            data: "Ip"
                        },
+                       
+                        
 
                     ]
 
@@ -144,6 +191,50 @@
                 
 
             });
+
+            //$("#getGrafana").click(function () {
+            //    loadData();
+            //});
+            //function loadData() {
+            //    $.ajax({
+            //        type: 'GET',
+            //        url: "/Grafana/GrafanaCamaras/" + "10-30-3-120",
+                    
+            //        dataType: 'json',
+            //        success: function (data) {
+            //            myJsonData = data;
+            //            populateDataTable(myJsonData);
+            //        },
+            //        error: function (e) {
+            //            console.log("There was an error with your request...");
+            //            console.log("error: " + JSON.stringify(e));
+            //        }
+                    
+            //    });
+
+            //    function populateDataTable(data) {
+            //        console.log("populating data table...");
+            //        // clear the table before populating it with more data
+            //        $("#camaras").DataTable().clear();
+                    
+
+            //        // You could also use an ajax property on the data table initialization
+            //        for(var objeto in data) {
+            //            $('#camaras').dataTable().fnAddData([
+            //                //objeto.Ip,
+            //              {
+            //                  data: objeto.Ip
+            //              }
+            //            ]);
+            //        }
+                        
+                    
+            //    }
+
+            //}
+
+                
+
             
 
 

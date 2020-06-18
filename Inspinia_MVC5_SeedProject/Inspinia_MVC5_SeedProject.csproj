@@ -804,6 +804,7 @@
     <Content Include="Views\Issues\PendienteComunitaria.cshtml" />
     <Content Include="Views\Home\Guardias.cshtml" />
     <Content Include="Views\Grafana\IndexGrafanaPorIp.cshtml" />
+    <Content Include="Views\Grafana\GrafanaPorIp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
