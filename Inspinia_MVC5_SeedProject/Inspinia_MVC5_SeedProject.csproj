@@ -452,6 +452,14 @@
     <Compile Include="Migrations\202006081019098_DiaDeGuardia.Designer.cs">
       <DependentUpon>202006081019098_DiaDeGuardia.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006180511330_SystemsToModel.cs" />
+    <Compile Include="Migrations\202006180511330_SystemsToModel.Designer.cs">
+      <DependentUpon>202006180511330_SystemsToModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006180517312_SystemsToModelNombre.cs" />
+    <Compile Include="Migrations\202006180517312_SystemsToModelNombre.Designer.cs">
+      <DependentUpon>202006180517312_SystemsToModelNombre.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelosCamarasClientes\CamarasMalvinas.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -470,6 +478,7 @@
     <Compile Include="Models\RelacionesAreas.cs" />
     <Compile Include="Models\RelacionesClientes.cs" />
     <Compile Include="Models\Roles.cs" />
+    <Compile Include="Models\Systems.cs" />
     <Compile Include="Models\TipoHoraExtra.cs" />
     <Compile Include="PdfReport\IssuesReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -974,6 +983,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006081019098_DiaDeGuardia.resx">
       <DependentUpon>202006081019098_DiaDeGuardia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006180511330_SystemsToModel.resx">
+      <DependentUpon>202006180511330_SystemsToModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006180517312_SystemsToModelNombre.resx">
+      <DependentUpon>202006180517312_SystemsToModelNombre.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

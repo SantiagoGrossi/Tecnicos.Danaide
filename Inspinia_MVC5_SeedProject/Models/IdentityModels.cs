@@ -47,6 +47,8 @@ namespace Inspinia_MVC5_SeedProject.Models
         public DbSet<MensajesPendientes> MensajesPendientes { get; set; }
         public DbSet<AporteComunitaria> AporteComunitaria { get; set; }
         public DbSet<DiaDeGuardia> DiaDeGuardia { get; set; }
+        public DbSet<Systems> Systems { get; set; }
+
 
         public ApplicationDbContext()
             : base("DefaultConnection")

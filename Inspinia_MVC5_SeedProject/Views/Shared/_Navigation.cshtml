@@ -20,8 +20,8 @@
                 </div>
             </li>
             @*<li class="@Html.IsSelected(action: "Index")">
-                <a href="@Url.Action("Index", "Home")"><i class="fa fa-table"></i> <span class="nav-label">Mesa</span> </a>
-            </li>*@
+                    <a href="@Url.Action("Index", "Home")"><i class="fa fa-table"></i> <span class="nav-label">Mesa</span> </a>
+                </li>*@
             <li class="">
                 <a href="#" aria-expanded="false"><i class="fa fa-tablet"></i> <span class="nav-label">Mesa</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
@@ -33,8 +33,8 @@
             </li>
 
             @*<li class="@Html.IsSelected(action: "Index")">
-                <a href="@Url.Action("CrearIssue", "Issues")"><i class="fa fa-chain-broken"></i> <span class="nav-label">Crear issue</span> </a>
-            </li>*@
+                    <a href="@Url.Action("CrearIssue", "Issues")"><i class="fa fa-chain-broken"></i> <span class="nav-label">Crear issue</span> </a>
+                </li>*@
             <li class="@Html.IsSelected(action: "Index")">
                 <a href="@Url.Action("IndexIssues", "Issues")"><i class="fa fa-home"></i> <span class="nav-label">Issues</span> </a>
             </li>
@@ -43,48 +43,93 @@
             </li>
 
             <li class="">
-                <a href="#" aria-expanded="false"><i class="fa fa-gears"></i> <span class="nav-label">Grafana</span><span class="fa arrow"></span></a>
+                <a href="#" aria-expanded="false"><i class="fa fa-gears"></i> <span class="nav-label">Grafana </span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                    <li class="">
+                        <a href="#" aria-expanded="false">Ausa <span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level collapse" aria-expanded="false" style="">
+                            <li>
+                                <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Ausa Avellaneda" })">Ausa Avellaneda</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Ausa Piedras" })">Ausa Piedras</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Pdb Avellaneda" })">Pdb Avellaneda</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Pdb Piedras" })">Pdb Piedras</a>
+                            </li>
 
+                        </ul>
+                    </li>
+                    <li class="">
+                        <a href="#" aria-expanded="false">Depende caba <span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level collapse" aria-expanded="false" style="">
+                            <li>
+                                <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Subte" })">Subte</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Lacarra" })">Lacarra</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Ministerio" })">Ministerio</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Facer" })">Facer</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Hornos" })">Hornos</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Herrera" })">Herrera</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Caba" })">Cabas</a>
+                    </li>
                     <li>
                         <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Malvinas" })">Malvinas</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Ausa" })">Ausa</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "PDB" })">PDB</a>
-                    </li>
-                    <li>
                         <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Estadio" })">Estadio</a>
                     </li>
-                    <li>
-                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "General Paz" })">Gp</a>
+
+                    <li class="">
+                        <a href="#" aria-expanded="false">General Paz <span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level collapse" aria-expanded="false" style="">
+                            <li>
+                                <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "General Paz" })">Gp</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "General Paz Anpr" })">Gp Anpr</a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Aubasa" })">Aubasa</a>
                     </li>
+
+
                     <li>
-                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Caba" })">Caba</a>
+                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Subte" })">Por ip</a>
                     </li>
-                    <li>
-                        <a href="@Url.Action("IndexGrafana", "Grafana", new { NombreCliente = "Subte" })">Subte</a>
-                    </li>
-
-
                 </ul>
-            </li>
-            <li class="">
-                <a href="#" aria-expanded="false"><i class="fa fa-magic"></i> <span class="nav-label">Administración</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
-                    <li><a href="@Url.Action("ResumenDeHoy", "Issues")">Resúmenes a pdf</a></li>
-                    <li><a href="@Url.Action("HorasExtras", "Admin")">Horas extras</a></li>
-                    <li><a href="@Url.Action("Cerradas", "Issues")">Cerradas</a></li>
-                    <li><a href="@Url.Action("Todas", "Issues")">Todas</a></li>
-                </ul>
-            </li>
+           
+       
+        <li class="">
+            <a href="#" aria-expanded="false"><i class="fa fa-magic"></i> <span class="nav-label">Administración</span><span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                <li><a href="@Url.Action("ResumenDeHoy", "Issues")">Resúmenes a pdf</a></li>
+                <li><a href="@Url.Action("HorasExtras", "Admin")">Horas extras</a></li>
+                <li><a href="@Url.Action("Cerradas", "Issues")">Cerradas</a></li>
+                <li><a href="@Url.Action("Todas", "Issues")">Todas</a></li>
+            </ul>
+        </li>
 
-            
+
         </ul>
 
     </div>
