@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "GrafanaPorIp";
+    ViewBag.Title = "Systems por ip";
 }
 
 <div class="ibox ">
@@ -45,41 +45,28 @@
                 <input type="text" placeholder="Host 2" id="Host2" class="form-control">
             </div>
 
-            <a href="#" id="getGrafana" class="btn btn-primary">Show Modal</a>
+            <a href="#" id="getGrafana" class="btn btn-white">Traer cámaras</a>
         </form>
     </div>
 </div>
 
 
 
-<div id="modall" class="modal fade" role="dialog">
 
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Crear hora extra<span id="eventTitle"></span></h4>
-            </div>
-            <div class="modal-body">
-                <p id="pDetails"></p><br />
-
-                <form id="nuevasHoras">
-                    <div class="row">
-
-
-                        <div class="ibox">
+<div class="ibox">
     <div class="ibox-content">
         <table id="camaras" class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>Nodo</th>
-                    @*<th>Nombre</th>
+                    <th>Nombre</th>
                     <th>Channel Name</th>
                     <th>Ip</th>
                     <th>Usuario</th>
                     <th>Pass</th>
                     <th>Encoder 1</th>
-                    <th>Encoder 2</th>*@
+                    <th>Encoder 2</th>
+
 
 
 
@@ -88,37 +75,9 @@
             </thead>
             <tbody></tbody>
         </table>
-     </div>
-
-    </div>
-                        
-
-
-
-                        
-
-
-
-
-                        <br />
-
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="guardarHoras">Enviar horas</button>
-                </form>
-
-            </div>
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-
     </div>
 
 </div>
-
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval")
 
@@ -134,19 +93,60 @@
                     $("#getGrafana").click(function () {
                         var id = ($("#Red1").val().concat("-").concat($("#Red2").val()).concat("-").concat($("#Host1").val()).concat("-").concat($("#Host2").val()));
 
-                        $("#modall").modal();
+                        //$("#modall").modal();
 
                         var table = $("#camaras").DataTable({
                             destroy: true,
+                            "sScrollX": '100%',
+                            "pageLength": 25,
                             ajax: {
                                // url: "/Grafana/GrafanaCamaras/" + "10-30-3-120",
                                 url: "/Grafana/GrafanaCamaras/" + id,
+                                
+                                    //toastr.success("Conexión exitosa al system " +id),
+                                    
+                                
                             },
+                            
                             columns: [
-                                {
 
-                                    data: "Ip",
-                                }
+                                {
+                                    data: "NodoNombre",
+                                    render: function (data, type, camara) {
+                                        if (camara.System == null) {
+                                            return "<a" + camara.NodoNombre + "'>" + data + "</a>";
+                                        }
+                                        return "<a" + camara.NodoNombre + "'>" + camara.NodoNombre + ' ' + camara.System + "</a>";
+                                    }
+                                },
+                    
+                    {
+                        data: "NombreCamara"
+                    },
+                    {
+                        data: "ChannelName"
+                    },
+                    {
+                        data: "Ip"
+                    },
+                    {
+                        data: "Usuario"
+                    },
+                    {
+                        data: "Pass"
+                    },
+                    {
+                        data: "NombreCamara",
+                        render: function (data, type, camara) {
+                            return "<a" + camara.NombreCamara + "'>" + camara.Retention + ' Disk: ' + camara.StorageDrive + "</a>";
+                        }
+                    },
+                    {
+                        data: "NombreCamara",
+                        render: function (data, type, camara) {
+                            return "<a" + camara.NombreCamara + "'>" + camara.Retention2 + ' Disk: ' + camara.StorageDrive2 + "</a>";
+                        }
+                    },
                                 
 
                             ]
