@@ -58,26 +58,7 @@ namespace Inspinia_MVC5_SeedProject.Controllers
 
             return File(abytes, "application/pdf");
         }
-        //public ActionResult ReportSemana()
-        //{
-        //    IssuesReport issueReport = new IssuesReport();
-        //    byte[] abytes = issueReport.PrepareReport(GetIssuesSemana());
-        //    return File(abytes, "application/pdf");
-        //}
-        //public List<Issue> GetIssues()
-        //{
-        //    List<Issue> issues = new List<Issue>();
-        //    Issue issue = new Issue();
-        //    for (int i = 1; i <= 6; i++)
-        //    {
-        //        issue = new Issue();
-        //        issue.Id = i;
-        //        issue.CreadaPorId = "Creada Por " + i;
-        //        issue.Titulo = "Titulo " + i;
-        //        issues.Add(issue);
-        //    }
-        //    return issues;
-        //}
+        
         public List<Issue> GetIssuesSemana()
         {
             var issues = _context.Issue
@@ -148,23 +129,12 @@ namespace Inspinia_MVC5_SeedProject.Controllers
                 Tarea = new Issue();
                 issue.CreadaPorId = issue.CreadaPor.Nombre + " el " + issue.FechaCreada;
 
-                //fecha creada string lo uso para pasar desde hasta en string
-                //if (issue.FechaCerrada != null)
-                //{
-                //    issue.FechaCreadaString = "De " + issue.FechaCreada.Value.Day + "/" + issue.FechaCreada.Value.Month + " a " + issue.FechaCerrada.Value.Day + "/" + issue.FechaCerrada.Value.Month;
-                //}
-                //else
-                //{
-                //    issue.FechaCreadaString = "De " + issue.FechaCreada.Value.Day + "/" + issue.FechaCreada.Value.Month + " a ";
-                //}
+                
 
 
 
                 Tarea.CreadaPorId = "Creada por " + issue.CreadaPor.Nombre + " el " + issue.FechaCreada;
-                //if(issue.CerradaPor !=null)
-                //    Tarea.CerradaPorId = "Cerrada por " + issue.CreadaPor.Nombre;
-                //Tarea.CerradaPorId = "Abierto";
-                //estado
+                
                 if (issue.CerradaPorId != null)
                 {
 
@@ -184,26 +154,7 @@ namespace Inspinia_MVC5_SeedProject.Controllers
                         }
                     }
                 }
-                //cuando esté abierta
-
-                //fin cuando esté abierta
-                //    if (issue.TecnicoAsignadoId != null && issue.CerradaPorId != null)
-                //    {
-                //        issue.CerradaPorId = "Cerró: " + issue.CerradaPor.Nombre + " el "+issue.FechaCerrada;
-
-                //    }
-
-
-                //}else
-                //{
-                //    if(issue.TecnicoAsignadoId != null)
-                //        issue.CerradaPorId = "En curso por: " + issue.TecnicoAsignado.Nombre;
-
-                //    issue.CerradaPorId = "Seguido por: " + issue.CreadaPor.Nombre;
-
-                //}
-
-                //estadofin
+                
 
 
                 if (issue.TecnicoAsignadoId == null)
@@ -226,69 +177,7 @@ namespace Inspinia_MVC5_SeedProject.Controllers
             }
             return issues;
         }
-        //public List<Issue> GetIssuesHoy(string desde, string hasta)
-
-        //{
-        //    DateTime DateDesde = DateTime.ParseExact(desde,
-        //               "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-        //    DateTime DateHasta = DateTime.ParseExact(hasta,
-        //                "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-
-        //    var issues = _context.Issue
-        //        .Include(m => m.Clientes)
-        //        .Include(m => m.CreadaPor)
-        //        .Include(m => m.CerradaPor)
-        //        .Include(m => m.TecnicoAsignado)
-
-        //        .Where(m => m.FechaCreada > DateDesde && m.FechaCreada < DateHasta)
-        //        .OrderBy(m => m.CreadaPor.Nombre)
-        //        .ToList();
-
-        //    List<Issue> lista = new List<Issue>();
-        //    Issue Tarea = new Issue();
-        //    foreach (var issue in issues)
-        //    {
-        //        Tarea = new Issue();
-        //        //fecha creada string lo uso para pasar desde hasta en string
-        //        if (issue.FechaCerrada != null)
-        //        {
-        //            issue.FechaCreadaString = "De " + issue.FechaCreada.Value.Day + "/" + issue.FechaCreada.Value.Month + " a " + issue.FechaCerrada.Value.Day + "/" + issue.FechaCerrada.Value.Month;
-        //        }
-        //        else
-        //        {
-        //            issue.FechaCreadaString = "De " + issue.FechaCreada.Value.Day + "/" + issue.FechaCreada.Value.Month + " a ";
-        //        }
-
-
-
-        //        Tarea.CreadaPorId = "Creada por " + issue.CreadaPor.Nombre;
-        //        //if(issue.CerradaPor !=null)
-        //        //    Tarea.CerradaPorId = "Cerrada por " + issue.CreadaPor.Nombre;
-        //        //Tarea.CerradaPorId = "Abierto";
-        //        if (issue.CerradaPorId == null)
-        //            issue.CerradaPorId = "Abierto";
-        //        else
-        //        {
-        //            issue.CerradaPorId = issue.CreadaPor.Nombre;
-        //        }
-        //        if (issue.TecnicoAsignadoId == null)
-        //            issue.TecnicoAsignadoId = "Sin asignar";
-        //        else
-        //        {
-        //            issue.TecnicoAsignadoId = issue.TecnicoAsignado.Nombre;
-        //        }
-
-        //        Tarea.Titulo = issue.Titulo;
-        //        //uso fechacerradastring para pasar el link porque no tenia otro campo libre
-        //        issue.FechaCerradaString = "http://tecnicos.danaide.com.ar/issues/historialissue/" + issue.Id;
-        //        Tarea.Titulo = "Titulo " + issue.Clientes.Nombre;
-        //        if (issue.TiempoDedicado == null)
-        //            issue.TiempoDedicado = 0.ToString();
-
-        //        lista.Add(issue);
-        //    }
-        //    return issues;
-        //}
+        
         #endregion
 
         public ActionResult EstadisticasHoy()
@@ -323,29 +212,70 @@ namespace Inspinia_MVC5_SeedProject.Controllers
             objetoFinal.Total.ToString();
 
 
-            //return Json(new { data = objetoFinal }, JsonRequestBehavior.AllowGet);
             return Json(new { objetoFinal }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult EstadisticasPorClienteTotal()
+        public ActionResult EstadisticasPorClienteTotal(string Desde, string Hasta)
         {
             var objetoFinal = new ListIntListString();
             var arrayLabels = new List<String>();
             var arrayValues = new List<int>();
             var todosLosClientes = _context.Clientes.ToList();
+           
+            //if(Desde != null & Hasta != null)
+                if ((Desde != null && Desde!="") & (Hasta != null && Hasta!= ""))
+                {
 
-            var objeto = _context.Issue.GroupBy(u => u.Clientes.Nombre)
+                #region normalizar
+                string resultadoDesde = Desde.Substring(0, 10);
+                resultadoDesde = resultadoDesde + " 00:01:00";
+
+                string resultadoHasta = Hasta.Substring(0, 10);
+                resultadoHasta = resultadoHasta + " 23:59:59";
+                #endregion
+                //conversión
+                Desde = DateTime.Now.ToString("MM/dd/yyyy");
+                Hasta = DateTime.Now.ToString("MM/dd/yyyy");
+
+                DateTime DateDesde = DateTime.ParseExact(resultadoDesde,
+                       "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                DateTime DateHasta = DateTime.ParseExact(resultadoHasta,
+                       "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+
+                
+
+                var objeto = _context.Issue
+                    .Where(m => m.FechaCreada > DateDesde && m.FechaCreada < DateHasta)
+                    .GroupBy(u => u.Clientes.Nombre)
                                       .Select(grp => new { nombreCliente = grp.Key, cantTareasHoy = grp.Count() })
                                       .ToList();
-
-            foreach (var clienteGroupedByName in objeto)
-            {
-                if (clienteGroupedByName.cantTareasHoy > 0)
+                foreach (var clienteGroupedByName in objeto)
                 {
-                    arrayLabels.Add(clienteGroupedByName.nombreCliente);
-                    arrayValues.Add(clienteGroupedByName.cantTareasHoy);
+                    if (clienteGroupedByName.cantTareasHoy > 0)
+                    {
+                        arrayLabels.Add(clienteGroupedByName.nombreCliente);
+                        arrayValues.Add(clienteGroupedByName.cantTareasHoy);
+                    }
                 }
+
             }
+            else
+            {
+                var objeto = _context.Issue.GroupBy(u => u.Clientes.Nombre)
+                                                      .Select(grp => new { nombreCliente = grp.Key, cantTareasHoy = grp.Count() })
+                                                      .ToList();
+                foreach (var clienteGroupedByName in objeto)
+                {
+                    if (clienteGroupedByName.cantTareasHoy > 0)
+                    {
+                        arrayLabels.Add(clienteGroupedByName.nombreCliente);
+                        arrayValues.Add(clienteGroupedByName.cantTareasHoy);
+                    }
+                }
+
+            }
+
 
             var total = _context.Issue.Count();
 

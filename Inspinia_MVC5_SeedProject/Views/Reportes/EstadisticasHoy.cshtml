@@ -1,14 +1,61 @@
 ﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+<script src="https://rawgit.com/tempusdominus/bootstrap-4/master/build/js/tempusdominus-bootstrap-4.js"></script>
 @{
     ViewBag.Title = "Estadisticas de hoy";
 }
 
 <div style="height:1300px">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10 form-inline">
+            <div class="col-lg-12">
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4 form-inline">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label class="control-label"> </label>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="input-daterange input-group input-block" id="date-rangeGlobal">
+                            <span class="input-group-addon">De</span>
 
+                            <div class="input-group-addon date" id="datetimepicker3" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3" id="desde" placeholder="MM/DD/YYYY" />
+                                <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker"></div>
+                            </div>
 
-    <h2>Reportes y estadísticas</h2>
+                            <span class="input-group-addon">a</span>
+                            <div class="input-group-addon date" id="datetimepicker4" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" id="hasta" placeholder="MM/DD/YYYY" />
+                                <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                <div class="row">
+                    
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-2 col-lg-2">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label class="control-label"></label>
+                    </div>
+                    <div class="col-lg-12" style="text-align:right; padding-top:5px">
+                        <a class="btn btn-default btn-block" id="buttonFilter">Aplicar Filtros</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @*Clientes por dia*@
     <div class="col-lg-6">
         <div class="ibox float-e-margins">
@@ -59,7 +106,7 @@
                         <label class="label label-default block" style="font-size:13px" id="chartjs-legend chart3">Total:</label>
                     </div>
                 </div>
-                <div class="text-center" id=""><canvas id="TareasClienteTotal" height="145"></canvas></div>
+                <div class="text-center" id="divTareasClienteTotal"><canvas id="TareasClienteTotal" height="145"></canvas></div>
 
             </div>
         </div>
@@ -89,6 +136,7 @@
 
 
                 function feedChartClienteHoy(data) {
+
                     var ctxP = document.getElementById("TareasClienteHoy").getContext('2d');
                     var myPieChart = new Chart(ctxP, {
                         type: 'pie',
@@ -110,11 +158,19 @@
                 traerDatosClienteHoy();
 
                 //segundo
+                $("#buttonFilter").click(function () {
+                    traerDatosClienteTotal($("#desde").val(),
+                        $("#hasta").val());
 
-                function traerDatosClienteTotal() {
+
+                    //  window.location.href = "/Reportes/EstadisticasPorClienteTotal/?Desde=" + tiempo.Desde + "&Hasta=" + tiempo.Hasta;
+
+                });
+
+                function traerDatosClienteTotal(desde,hasta) {
                     $.ajax({
                         type: "GET",
-                        url: "/Reportes/EstadisticasPorClienteTotal",
+                        url: "/Reportes/EstadisticasPorClienteTotal/?Desde=" + desde + "&Hasta=" + hasta,
                         success: function (data) {
 
                             feedChartClienteTotal(data);
@@ -128,6 +184,8 @@
                 };
 
                 function feedChartClienteTotal(data) {
+                    $('#TareasClienteTotal').remove();
+                    $('#divTareasClienteTotal').append('<canvas id="TareasClienteTotal" height="145"></canvas>');
                     var ctxP = document.getElementById("TareasClienteTotal").getContext('2d');
                     var myPieChart = new Chart(ctxP, {
                         type: 'pie',
@@ -145,8 +203,12 @@
                         }
                     });
                 };
-                traerDatosClienteTotal();
+                traerDatosClienteTotal($("#desde").val(),
+                    $("#hasta").val());
             });
+
+            
+
     </script>
 }
 
