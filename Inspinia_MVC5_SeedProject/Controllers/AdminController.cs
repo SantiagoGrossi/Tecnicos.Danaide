@@ -8,6 +8,8 @@ using Inspinia_MVC5_SeedProject.ViewModels;
 using Inspinia_MVC5_SeedProject.Dtos;
 using Inspinia_MVC5_SeedProject.CustomObjects;
 using System.Globalization;
+using System.Data.Entity;
+
 namespace Inspinia_MVC5_SeedProject.Controllers
 {
     public class AdminController : Controller
@@ -34,7 +36,105 @@ namespace Inspinia_MVC5_SeedProject.Controllers
         {
             return View();
         }
+        public ActionResult PermisosUsuario()
+        {
+            var viewmodel = new PermisosUsuariosViewModel
+            {
+                ApplicationUsers = _context.Users.Where(m => m.EsTecnico == true).ToList()
+            };
+            return View(viewmodel);
+        }
 
+        public ActionResult traerAreas(string userId)
+        {
+            var Areas = _context.AreaTecnicos
+                
+                       .ToList();
+            return Json(new { Areas }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult traerClientes(string userId)
+        {
+            var Clientes = _context.Clientes
+
+                       .ToList();
+            return Json(new { Clientes }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult AdministrarUsuario(string userId)
+        {
+            var user = _context.Users.Single(m => m.Id == userId);
+            if (user == null)
+                return HttpNotFound("Usuario no encontrado");
+            var viewmodel = new PermisosUsuariosViewModel
+            {
+                userId = user.Id,
+                Usuario = user,
+                RelacionesAreas = _context.RelacionesAreas.ToList(),
+                RelacionesClientes = _context.RelacionesClientes.ToList()
+            };
+            return View();
+        }
+        //public ActionResult getUsersNoAdmin()
+        //{
+        //    var users = _context.Users
+              
+               
+        //}
+        public ActionResult ModificarUsuario(ModificarUsuarioDto dto)
+        {
+            var usuario =0;
+
+            //eliminar permisos anteriores
+            var areas = _context.AreaTecnicos.Where(
+                 m => dto.ListaAreas.Contains(m.Id)).ToList();
+
+            var relacionesAreasDelUsuarioExistentes = _context.RelacionesAreas.Where(
+                 m => dto.UserId.Contains(m.TecnicoId)).ToList();
+
+
+            foreach (var area in relacionesAreasDelUsuarioExistentes)
+            {
+                _context.RelacionesAreas.Remove(area);
+            }
+
+
+            var relacionesClientesDelUsuarioExistentes = _context.RelacionesClientes.Where(
+                 m => dto.UserId.Contains(m.TecnicoId)).ToList();
+
+            var clientes = _context.Clientes.Where(
+                 m => dto.ListaClientes.Contains(m.Id)).ToList();
+            foreach (var cliente in relacionesClientesDelUsuarioExistentes)
+            {
+                _context.RelacionesClientes.Remove(cliente);
+            }
+
+
+            //nuevos permisos
+
+            foreach(var area in areas)
+            {
+                var relacionArea = new RelacionesAreas
+                {
+                    TecnicoId = dto.UserId,
+                    AreasTecnicosId = area.Id
+
+                };
+
+                _context.RelacionesAreas.Add(relacionArea);
+            }
+            foreach(var cliente in clientes)
+            {
+                var relacionCliente = new RelacionesClientes
+                {
+                    TecnicoId = dto.UserId,
+                    ClientesId = cliente.Id
+                };
+                _context.RelacionesClientes.Add(relacionCliente);
+            }
+            _context.SaveChanges();
+            return Json(usuario,JsonRequestBehavior.AllowGet);
+        }
         public ActionResult HorasExtras()
         {
             List<HsExtrasIndex> objetoFinal = new List<HsExtrasIndex>();

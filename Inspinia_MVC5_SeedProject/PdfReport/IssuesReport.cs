@@ -168,6 +168,7 @@ namespace Inspinia_MVC5_SeedProject.PdfReport
                 titulo.Font.Size = 7;
                 titulo.Reference = issue.FechaCreadaString;
                 //_pdfPCell.Colspan = _totalColum;
+                titulo.Font.Color = BaseColor.BLUE;
                 _pdfPCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 _pdfPCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 //_pdfPCell.Border = 0;

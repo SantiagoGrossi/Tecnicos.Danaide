@@ -21,8 +21,10 @@
         /*overflow:scroll*/
     }
     .redRow {
-  background-color: #ed5565;
+  background-color: #ed5565 !important;
+ color:black;
 }
+
 </style>
 
 <div id="modalCerrar" class="modal fade" role="dialog">
@@ -244,7 +246,21 @@
 
                                 }
                             }
-                        ]
+                        ],
+                        "createdRow": function (row, data, type, index) {
+                            if (data.TecnicoAsignadoId === null) {
+                                if($(row).hasClass('odd')){
+                                    $(row).addClass('redRowOdd');
+                                    $(row).removeClass('odd');
+                                    
+                                }
+                                else {
+                                    $(row).removeClass('odd');
+                                    $(row).addClass('redRow');
+                                }
+                                
+                            }
+                        }
                     });
                     //2
 

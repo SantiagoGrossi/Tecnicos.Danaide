@@ -215,6 +215,7 @@
     <Compile Include="CustomObjects\HsExtrasIndex.cs" />
     <Compile Include="CustomObjects\ListIntListString.cs" />
     <Compile Include="CustomObjects\GenericoUnString.cs" />
+    <Compile Include="CustomObjects\ModificarUsuarioDto.cs" />
     <Compile Include="CustomObjects\ResumenTareasPorUsuario.cs" />
     <Compile Include="Dtos\AreaTecnicoDto.cs" />
     <Compile Include="Dtos\HorasExtrasDto.cs" />
@@ -489,6 +490,7 @@
     <Compile Include="ViewModels\IssueViewmodel.cs" />
     <Compile Include="ViewModels\MensajesViewModel.cs" />
     <Compile Include="ViewModels\PendienteComunitaria.cs" />
+    <Compile Include="ViewModels\PermisosUsuariosViewModel.cs" />
     <Compile Include="ViewModels\RegistroViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -805,6 +807,8 @@
     <Content Include="Views\Home\Guardias.cshtml" />
     <Content Include="Views\Grafana\IndexGrafanaPorIp.cshtml" />
     <Content Include="Views\Grafana\GrafanaPorIp.cshtml" />
+    <Content Include="Views\Admin\PermisosUsuario.cshtml" />
+    <Content Include="Views\Admin\AdministrarUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

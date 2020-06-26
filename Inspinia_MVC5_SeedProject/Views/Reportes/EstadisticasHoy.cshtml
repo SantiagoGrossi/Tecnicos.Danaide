@@ -144,6 +144,7 @@
                             label: data.objetoFinal.Total,
                             labels: data.objetoFinal.Strings,
                             datasets: [{
+                                label: "Cant:",
                                 data: data.objetoFinal.Ints,
                                 backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#33FF58", "#3393FF", "#E933FF", "#1D4416", "#050606"],
                                 hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#33FF58", "#3393FF", "#E933FF", "#1D4416", "#050606"]
@@ -152,7 +153,12 @@
                         options: {
                             responsive: true
                         }
+                    
                     });
+                    var sum = 0;
+                    $.each(data.objetoFinal.Strings, function () { sum += parseFloat(this) || 0; });
+                    $("#TareasClienteHoy").html("Total: " + sum);
+
                 };
 
                 traerDatosClienteHoy();

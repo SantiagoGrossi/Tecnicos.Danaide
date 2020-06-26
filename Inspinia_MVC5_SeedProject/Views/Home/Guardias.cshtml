@@ -34,7 +34,8 @@
                             FechaFin: v.Termina,
                             Color: v.UsuarioDeGuardia.Color,
                             start: moment(v.Inicia).format(),
-                            end: moment(v.Termina).format()
+                            end: moment(v.Termina).format(),
+                            userId: v.UsuarioDeGuardia.Id
 
 
                         })
@@ -80,7 +81,7 @@
                     },
                     eventClick: function (calEvent, jsEvent, view) {
                         $('#myModal #eventTitle').text(calEvent.title)
-                        $('#myModal').modal()
+                        //$('#myModal').modal()
 
                         var $description = $('<div/>');
 
@@ -90,8 +91,29 @@
 
 
                     },
-                    eventDrop: function (info, calEvent, jsEvent, view, date, dropInfo) {
-                        bootbox.confirm("¿Cambiar la guardia día: ?" + calEvent.FechaInicio + "\n" +"El cambio debe ser autorizado por un administrador", function (result) {
+                    eventDrop: function (info, view, date, dropInfo) {
+                        bootbox.confirm("¿Cambiar la guardia día:? " + info.FechaInicio + "\n" + " El cambio debe ser autorizado por un administrador", function (result) {
+
+                            $.ajax({
+                                url: "/Home/cambiarGuardias",
+                                
+                                data: {
+                                    
+                                    userid: info.userId,
+                                    nuevaFecha: info.start
+
+
+
+                                },
+                                success: function () {
+
+                                    table.ajax.reload();
+                                    toastr.info("Tarea Finalizada correctamente :)");
+                                    $("#modalCerrar").modal('toggle');
+
+
+                                }
+                            });
                         })
                         //alert(calEvent.Nombre);
                         //alert(date.format());

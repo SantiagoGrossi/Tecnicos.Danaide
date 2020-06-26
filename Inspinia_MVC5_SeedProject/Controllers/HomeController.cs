@@ -106,6 +106,10 @@ namespace Inspinia_MVC5_SeedProject.Controllers
             };
             return View(viewmodel);
         }
+        public ActionResult cambiarGuardias (string userid, string nuevaFecha)
+        {
+            return View();
+        }
 
         public ActionResult Minor()
         {
