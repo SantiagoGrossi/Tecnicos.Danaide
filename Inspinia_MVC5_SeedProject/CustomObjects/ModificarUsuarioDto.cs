@@ -12,6 +12,8 @@ namespace Inspinia_MVC5_SeedProject.CustomObjects
         //public List<int> ListaClientes { get; set; }
         public int[] ListaAreas { get; set; }
         public int[] ListaClientes { get; set; }
+        public string NombreUsuario { get; set; }
+        
 
     }
 }

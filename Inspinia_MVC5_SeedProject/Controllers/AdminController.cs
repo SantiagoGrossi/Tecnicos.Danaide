@@ -40,7 +40,7 @@ namespace Inspinia_MVC5_SeedProject.Controllers
         {
             var viewmodel = new PermisosUsuariosViewModel
             {
-                ApplicationUsers = _context.Users.Where(m => m.EsTecnico == true).ToList()
+                ApplicationUsers = _context.Users.ToList()
             };
             return View(viewmodel);
         }
@@ -133,7 +133,13 @@ namespace Inspinia_MVC5_SeedProject.Controllers
                 _context.RelacionesClientes.Add(relacionCliente);
             }
             _context.SaveChanges();
-            return Json(usuario,JsonRequestBehavior.AllowGet);
+            var nuevousuario = new ModificarUsuarioDto
+            {
+                NombreUsuario = _context.Users.Single(m => m.Id == dto.UserId).Nombre
+                
+
+            };
+            return Json(nuevousuario, JsonRequestBehavior.AllowGet);
         }
         public ActionResult HorasExtras()
         {

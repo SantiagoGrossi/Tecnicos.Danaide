@@ -51,11 +51,16 @@
 
 </div>
 
+<div class="" id="nuevosPermisosUsuario">
+    @*<h2 id="NombreUsuario"> </h2>*@
+    <ul class="list-group" id="listaClientes"></ul>
+    <ul class="list-group" id="listaAreas"></ul>
+</div>
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         $(document).ready(function () {
-
+            //$('#nuevosPermisosUsuario').remove();
             $("#userName").change(function () {
 
                 function traerAreasDeUsuario() {
@@ -111,35 +116,45 @@
             });
 
             $("#guardarPermisos").click(function () {
+
+                
+
                 var dto = new Object();
+                dto.ListaAreas = [];
+                dto.ListaClientes = [];
+
                 dto.ListaAreas =$("#selectAreas").val();
                 dto.UserId = $("#userName").val()
                 dto.ListaClientes = $("#selectClientes").val();
 
-                $.ajax({
-                    url: "/Admin/ModificarUsuario",
-                    type: "Post",
-                    contentType: "application/json",
-                    dataType: "JSON",
-                   
+                
+
+                //if (!(dto.UserId.val != ("") && (dto.ListaAreas.length < 1 && dto.ListaClientes.length != 0))) {
+                if (dto.UserId.val != ("") && ((dto.ListaAreas.length > 0 && (dto.ListaClientes.length != null)))) {
+                    if (dto.ListaClientes.length > 0) {
+
+                        $.ajax({
+                            url: "/Admin/ModificarUsuario",
+                            type: "Post",
+                            contentType: "application/json",
+                            dataType: "JSON",
+                            data: JSON.stringify(dto),
 
 
-                    data: JSON.stringify(dto),
-                        
-                        
-                       
-                        
-
-
-                    
-
-
-
-
-                })
-                                     .done(function () {
+                        })
+                                     .done(function (data) {
                                          toastr.success("Usuario modificado :)");
-                                         
+                                         $("#selectAreas").val("");
+                                         $("#userName").val("")
+                                         $("#selectClientes").val("");
+                                         dto.ListaAreas = [];
+                                         dto.ListaClientes = [];
+                                         $("#nuevosPermisosUsuario").append('<h3>El usuario ' + data.NombreUsuario + ' ha sido modificado con los siguientes permisos: </h3>');
+
+
+                                         //$.each(data.Clientes, function (key, value) {
+                                         //    $("#listaClientes").append('<li class="list-group-item">' + value.Nombre + '</li>')
+                                         //});
                                          //window.location.href = "/issues/IndexIssues";
                                          //validator.resetForm();
                                      })
@@ -147,6 +162,18 @@
                                         toastr.error("Algo falló, enviale captura de pantalla a Santiago por favor.");
 
                                     })
+
+
+                    } else {
+                        toastr.error("Por favor, validar los permisos indicados para el usuario.");
+                    }
+                    
+                } else {
+                    toastr.error("Por favor, validar los permisos indicados para el usuario.");
+
+                }
+
+                
             });
         });
     </script>
